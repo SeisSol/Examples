@@ -1,0 +1,50 @@
+!Switch
+[mu_d, mu_s, d_c]: !ConstantMap
+  map:
+    mu_s: 0.18
+    mu_d: 0.12
+    d_c: 0.3
+[cohesion, forced_rupture_time]: !FunctionMap
+  map:
+    cohesion: |
+        return -400000.-200*max(z+4000.,0);
+    forced_rupture_time: |
+      r = sqrt(pow(x+5000., 2.0) + pow(z+10000., 2.0));
+      r_crit = 4000.0;
+      Vs = 3464.0;
+      if (r <= r_crit) {
+        return r/(0.7*Vs)+(0.081.0*r_crit/(0.7.0*Vs))*(1.0/(1.0-pow(r/r_crit, 2.0))-1.0);
+      }
+      return 1000000000.0;
+[s_xx, s_yy, s_zz, s_xy, s_yz, s_xz]: !EvalModel
+  parameters: [Omega, Pf, s_zz0, b_xx, b_yy, b_xy]
+  model: !FunctionMap
+    map:
+      #return min(1,max(0,(z + 22000.0)/5000.));
+      Omega: |
+        if (z>=-17000.0) {
+              return 1.0;
+        } else {
+           if (z>=-22000.0) {
+              return (z + 22000.0)/5000.;
+           }
+        }
+        return 0.0;
+      Pf: |
+        return -1000 * 9.8 * z;
+      s_zz0: |
+        return 2670 * 9.8 * z;
+      b_xx: |
+        return 1.025837;
+      b_yy: |
+        return 0.974162;
+      b_xy: |
+        return -0.158649;
+  components: !FunctionMap
+    map:
+      s_xx:     return Omega*(b_xx*(s_zz0+Pf)-Pf)+(1.0-Omega)*s_zz0 + Pf;
+      s_yy:     return Omega*(b_yy*(s_zz0+Pf)-Pf)+(1.0-Omega)*s_zz0 + Pf;
+      s_zz:     return s_zz0 + Pf;
+      s_xy:     return Omega*(b_xy*(s_zz0+Pf));
+      s_yz:     return 0.0;
+      s_xz:     return 0.0;
