@@ -47,10 +47,10 @@ PPFileName = 'tpv33_faultreceivers.dat'
 /
             
 &MeshNml
-!MeshFile = tpv33_gmsh         ! Name of mesh file
-!meshgenerator = PUML       ! Name of meshgenerator (format)
-MeshFile = tpv33_gmsh.32         ! Name of mesh file
-meshgenerator = Netcdf       ! Name of meshgenerator (format)
+MeshFile = tpv33_gmsh         ! Name of mesh file
+meshgenerator = PUML       ! Name of meshgenerator (format)
+!MeshFile = tpv33_gmsh.32         ! Name of mesh file
+!meshgenerator = Netcdf       ! Name of meshgenerator (format)
 /
 
 

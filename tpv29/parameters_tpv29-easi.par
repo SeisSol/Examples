@@ -55,8 +55,8 @@ PPFileName = 'tpv29-faultreceivers.dat'
 &MeshNml
 !mesh is too big to be shared
 MeshFile = 
-meshgenerator = 'Netcdf'       ! Name of meshgenerator (format)
-!meshgenerator = 'PUML'       ! Name of meshgenerator (format)
+!meshgenerator = 'Netcdf'       ! Name of meshgenerator (format)
+meshgenerator = 'PUML'       ! Name of meshgenerator (format)
 /
 
 
