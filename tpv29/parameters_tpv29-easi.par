@@ -1,5 +1,5 @@
 &equations
-MaterialFileName = tpv29_material.yaml
+MaterialFileName = 'tpv29_material.yaml'
 /
 
 &IniCondition
@@ -15,7 +15,7 @@ BC_of = 1                               ! Absorbing boundaries
 FL = 30                    ! Friction law (0: none, 1:self-similar crack, 2:LSW, 3:RS (aging), 4:RS (slip))
 
 inst_healing=0
-ModelFileName = tpv29_fault.yaml
+ModelFileName = 'tpv29_fault.yaml'
 
 GPwise = 1                  ! elementwise =0 ; GPwise =1
 XRef = 0.0                  ! Reference point

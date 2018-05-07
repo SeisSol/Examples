@@ -1,5 +1,5 @@
 &equations
-MaterialFileName = tpv33_material.yaml
+MaterialFileName = 'tpv33_material.yaml'
 /
 
 &IniCondition
@@ -13,7 +13,7 @@ BC_of = 1                               ! Absorbing boundaries
 
 &DynamicRupture
 FL = 2                      ! Friction law (0: none, 1:self-similar crack, 2:LSW, 3:RS (aging), 4:RS (slip))
-ModelFileName = tpv33_initial_stress.yaml
+ModelFileName = 'tpv33_initial_stress.yaml'
 
 
 XRef = 0.0                  ! Reference point
@@ -47,10 +47,10 @@ PPFileName = 'tpv33_faultreceivers.dat'
 /
             
 &MeshNml
-MeshFile = tpv33_gmsh         ! Name of mesh file
-meshgenerator = PUML       ! Name of meshgenerator (format)
-!MeshFile = tpv33_gmsh.32         ! Name of mesh file
-!meshgenerator = Netcdf       ! Name of meshgenerator (format)
+MeshFile = 'tpv33_gmsh'        ! Name of mesh file
+meshgenerator = 'PUML'       ! Name of meshgenerator (format)
+!MeshFile = 'tpv33_gmsh.32'         ! Name of mesh file
+!meshgenerator = 'Netcdf'       ! Name of meshgenerator (format)
 /
 
 
@@ -88,9 +88,6 @@ SurfaceOutputInterval = 2.0
 !checkPointInterval = 6
 /
  
-
-
-           
 &AbortCriteria
 EndTime = 12.0
 /
