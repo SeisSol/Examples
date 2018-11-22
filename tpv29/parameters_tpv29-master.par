@@ -12,7 +12,7 @@ BC_of = 1                               ! Absorbing boundaries
 /
 
 &DynamicRupture
-FL = 30                    ! Friction law (0: none, 1:self-similar crack, 2:LSW, 3:RS (aging), 4:RS (slip))
+FL = 16                    ! Friction law
 
 inst_healing=0
 ModelFileName = 'tpv29_fault.yaml'
