@@ -1,0 +1,6 @@
+!Switch
+[rho, mu, lambda]: !ASAGI
+  file: asagi_x2.nc
+  parameters: [rho, mu, lambda]
+  var: data
+

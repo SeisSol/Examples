@@ -1,0 +1,7 @@
+!Switch
+[mu_d,mu_s,d_c,cohesion]: !ConstantMap
+ map:
+       mu_s:        0.50
+       mu_d:        0.10
+       d_c:         0.50
+       cohesion:  -2000000000
