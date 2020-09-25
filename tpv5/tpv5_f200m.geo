@@ -3,7 +3,7 @@
  * @file
  * This file is part of SeisSol.
  *
- * @author Stephanie Wollherr and Thomas Ulrich
+ * @author Thomas Ulrich 
  *
  * @section LICENSE
  * Copyright (c) 2014-2015, SeisSol Group
@@ -35,35 +35,34 @@
  * ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  
-
-Creates the mesh for tpv13, 60 degree dipping fault with a square nucleation patch
-Obtain the mesh:
-gmsh tpv13_example.geo -3 -optimize
-Convert the mesh:
-gmsh2gambit -i tpv13_example.msh -o tpv13_example.neu
-Convert .neu file with pumgen for the use in SeisSol
+19.02.2016
+Create a planar fault of given dimension and dip angle, the nucleation is also included in the geometry
+To use obtain the mesh:
+gmsh planar-anydip.geo -3 -optimize
+To convert the mesh:
+gmsh2gambit -i planar-anydip.msh -o planar-anydip.neu
 
  */
 
-//resolution, off- and on-fault and nucleation patch
+
 lc = 25e3;
-lc_fault = 250;
-lc_nucl = 100;
+lc_fault = 200;
 
 Fault_length = 30e3;
 Fault_width = 15e3;
-Fault_dip = 60*Pi/180.;
+Fault_dip = 90*Pi/180.;
 
-//Square nucleation patch in X,Z local coordinates
+//Nucleation in X,Z local coordinates
 X_nucl = 0e3;
-Z_nucl = -12e3;
-Width_nucl = 3e3;
+Width_nucl = 0.5*Fault_width;
+R_nucl = 1.5e3;
+lc_nucl = 300;
 
-Xmax = 45e3;
+Xmax = 60e3;
 Xmin = -Xmax;
-Ymin = 36e3;
-Ymax =  -Ymin;
-Zmin = -42e3;
+Ymin = -Xmax +  0.5 * Fault_width  *Cos(Fault_dip);
+Ymax =  Xmax + 0.5 * Fault_width  *Cos(Fault_dip);
+Zmin = -Xmax;
 
 
 //Create the Volume
@@ -80,10 +79,10 @@ Plane Surface(1) = {5};
 Extrude {0,0, Zmin} { Surface{1}; }
 
 //Create the fault
-Point(100) = {-0.5*Fault_length, -Fault_width  *Cos(Fault_dip), -Fault_width  *Sin(Fault_dip), lc};
+Point(100) = {-0.5*Fault_length, Fault_width  *Cos(Fault_dip), -Fault_width  *Sin(Fault_dip), lc};
 Point(101) = {-0.5*Fault_length, 0, 0e3, lc};
 Point(102) = {0.5*Fault_length, 0,  0e3, lc};
-Point(103) = {0.5*Fault_length, -Fault_width  *Cos(Fault_dip), -Fault_width  *Sin(Fault_dip), lc};
+Point(103) = {0.5*Fault_length, Fault_width  *Cos(Fault_dip), -Fault_width  *Sin(Fault_dip), lc};
 Line(100) = {100, 101};
 Line(101) = {101, 102};
 Line{101} In Surface{1};
@@ -91,14 +90,28 @@ Line(102) = {102, 103};
 Line(103) = {103, 100};
 
 //create nucleation patch
-Point(200) = {X_nucl + 0.5*Width_nucl, (Z_nucl+0.5*Width_nucl)*Cos(Fault_dip), (Z_nucl+0.5*Width_nucl)*Sin(Fault_dip), lc_nucl};
-Point(201) = {X_nucl - 0.5*Width_nucl, (Z_nucl+0.5*Width_nucl)*Cos(Fault_dip), (Z_nucl+0.5*Width_nucl)*Sin(Fault_dip), lc_nucl};
-Point(202) = {X_nucl - 0.5*Width_nucl, (Z_nucl-0.5*Width_nucl)*Cos(Fault_dip), (Z_nucl-0.5*Width_nucl)*Sin(Fault_dip), lc_nucl};
-Point(203) = {X_nucl + 0.5*Width_nucl, (Z_nucl-0.5*Width_nucl)*Cos(Fault_dip), (Z_nucl-0.5*Width_nucl)*Sin(Fault_dip), lc_nucl};
-Line(200) = {200,201};
-Line(201) = {201,202};
-Line(202) = {202,203};
-Line(203) = {203,200};
+/*
+Point(200) = {X_nucl, Width_nucl*Cos(Fault_dip), -Width_nucl  *Sin(Fault_dip), lc_nucl};
+Point(201) = {X_nucl, (Width_nucl + R_nucl) * Cos(Fault_dip), -(Width_nucl+R_nucl)  *Sin(Fault_dip), lc_nucl};
+Point(202) = {X_nucl + R_nucl, Width_nucl*Cos(Fault_dip), -Width_nucl  *Sin(Fault_dip), lc_nucl};
+Point(203) = {X_nucl, (Width_nucl - R_nucl) * Cos(Fault_dip), -(Width_nucl-R_nucl)  *Sin(Fault_dip), lc_nucl};
+Point(204) = {X_nucl - R_nucl, Width_nucl*Cos(Fault_dip), -Width_nucl  *Sin(Fault_dip), lc_nucl};
+Circle(200) = {201,200,202};
+Circle(201) = {202,200,203};
+Circle(202) = {203,200,204};
+Circle(203) = {204,200,201};
+Line Loop(204) = {200,201,202,203};
+Plane Surface(200) = {204};
+*/
+
+Point(201) = {X_nucl + R_nucl , (Width_nucl + R_nucl) * Cos(Fault_dip), -(Width_nucl+R_nucl)  *Sin(Fault_dip), lc_nucl};
+Point(202) = {X_nucl + R_nucl , (Width_nucl - R_nucl) * Cos(Fault_dip), -(Width_nucl-R_nucl)  *Sin(Fault_dip), lc_nucl};
+Point(203) = {X_nucl - R_nucl , (Width_nucl - R_nucl) * Cos(Fault_dip), -(Width_nucl-R_nucl)  *Sin(Fault_dip), lc_nucl};
+Point(204) = {X_nucl - R_nucl , (Width_nucl + R_nucl) * Cos(Fault_dip), -(Width_nucl+R_nucl)  *Sin(Fault_dip), lc_nucl};
+Line(200) = {201, 202};
+Line(201) = {202, 203};
+Line(202) = {203, 204};
+Line(203) = {204, 201};
 Line Loop(204) = {200,201,202,203};
 Plane Surface(200) = {204};
 
@@ -133,8 +146,8 @@ Field[4] = Threshold;
 Field[4].IField = 3;
 Field[4].LcMin = lc_nucl;
 Field[4].LcMax = lc_fault;
-Field[4].DistMin = Width_nucl;
-Field[4].DistMax = 3*Width_nucl;
+Field[4].DistMin = R_nucl;
+Field[4].DistMax = 3*R_nucl;
 
 Field[5] = Restrict;
 Field[5].IField = 4;
@@ -155,13 +168,9 @@ Field[7].FieldsList = {2,5,6};
 
 Background Field = 7;
 
-
-//Define SeisSol specific boundary conditions
-//free surface
 Physical Surface(101) = {1};
-//dynamic rupture
 Physical Surface(103) = {100,200};
-//absorbing
+//This ones are read in the gui
 Physical Surface(105) = {14,18,22,26,27};
 
 Physical Volume(1) = {1};
