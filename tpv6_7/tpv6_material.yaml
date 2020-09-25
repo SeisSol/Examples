@@ -1,0 +1,22 @@
+!Switch
+[rho,mu,lambda]: !IdentityMap
+  components:
+  ### far-side of the fault
+    - !AxisAlignedCuboidalDomainFilter
+      limits: 
+        x: [-.Inf, .Inf]
+        y: [0.0, 9000000.0]
+        z: [-.Inf, .Inf]
+      components: !ConstantMap
+        map:
+          rho:  2225.0
+          mu:   10429075625
+          lambda: 10430911250  
+  ## near side of the fault
+    - !ConstantMap
+      map:
+        rho:    2760
+        mu:     32038120320
+        lambda: 32043759360
+  
+

@@ -1,0 +1,98 @@
+&equations
+MaterialFileName = 'material.yaml'
+/
+
+&IniCondition
+/
+
+&Boundaries
+BC_fs = 1
+BC_dr = 1                               ! Fault boundaries
+BC_of = 1                               ! Absorbing boundaries
+/
+
+&DynamicRupture
+FL = 16                  ! Friction law (0: none, 1:self-similar crack, 2:LSW, 3:RS (aging), 4:RS (slip))
+ModelFileName = 'tpv24_fault.yaml'
+
+inst_healing=1
+t_0 = 0.5
+
+refPointMethod = 1
+GPwise = 1                  ! elementwise =0 ; GPwise =1
+XRef = 0.0                  ! Reference point
+YRef = 20.0e3 
+ZRef = 0.0 
+RF_output_on = 1            ! RF on      
+magnitude_output_on =0
+energy_rate_output_on =0
+energy_rate_printtimeinterval = 10
+OutputPointType = 5         ! Type (0: no output, 1: take GP's 2: 4 points per surface triangle, 3: output at certain pickpoints)
+/
+
+&Elementwise
+printIntervalCriterion = 2       ! 1=iteration, 2=time
+printtimeinterval_sec = 0.5      ! Time interval at which output will be written
+OutputMask = 1 1 1 1 1 1 1 1 1 1 1   ! output 1/ yes, 0/ no - position: 1/ slip rate 2/ stress 3/ normal velocity 4/ in case of rate and state output friction and state variable
+refinement_strategy = 2
+refinement = 1
+
+/
+&Pickpoint
+printtimeinterval = 1       ! Index of printed info at timesteps
+OutputMask = 1 1 1 0      ! output 1/ yes, 0/ no - position: 1/ slip rate 2/ stress 3/ normal velocity 4/ in case of rate and state output friction and state variable
+                           ! 5/ background values
+nOutpoints = 14
+PPFileName = 'faultreceivers.dat'
+/
+
+
+&SourceType
+/
+
+&SpongeLayer
+/
+            
+&MeshNml
+
+MeshFile = './mesh/tpv24_200m'
+meshgenerator = 'PUML'       ! Name of meshgenerator (format)
+/
+
+
+&Discretization
+CFL = 0.5                           ! CFL number (<=1.0)
+FixTimeStep = 5                     ! Manualy chosen minimum time
+ClusteredLTS = 2
+/
+
+&Output
+OutputFile = './output/tpv24'
+!checkPointInterval = 200
+!checkPointBackend = 'hdf5'
+iOutputMask = 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+iOutputMaskMaterial = 1 1 1         ! Material output
+Format = 6                          ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD, 6=hdf5, 10= no output))
+TimeInterval = 0.5                  ! Index of printed info at time
+!OutputRegionBounds = 100e3 1000e3 100e3 1600e3 -50e3 50e3
+printIntervalCriterion = 2          ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
+SurfaceOutput = 1
+SurfaceOutputRefinement = 0
+SurfaceOutputInterval = 0.10
+pickdt = 0.01                       ! Pickpoint Sampling
+pickDtType = 1                      ! Pickpoint Type
+nRecordPoints = 8                   ! number of Record points which are read from file
+RFileName = 'receivers.dat'          ! Record Points in extra file
+/
+
+&AbortCriteria
+EndTime = 12.0
+!EndTime = 0.01
+!MaxIteration=1
+/
+
+&Analysis
+/
+
+&Debugging
+/
