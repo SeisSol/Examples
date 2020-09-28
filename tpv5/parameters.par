@@ -58,7 +58,7 @@ PPFileName = 'tpv5_faultreceivers.dat'
 /
             
 &MeshNml
-MeshFile = 'tpv5_f200m'
+MeshFile = 'tpv5_f200m.puml.h5'
 meshgenerator = 'PUML'                         ! Name of meshgenerator (Gambit3D-fast, Netcdf or PUML)
 /
 
