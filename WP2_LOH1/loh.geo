@@ -78,3 +78,4 @@ Field[3].F = "150 + F2^2/6000^2*100";
 Field[4] = Min;
 Field[4].FieldsList = {1, 3};
 Background Field = 4;
+Mesh.MshFileVersion = 2.2;
