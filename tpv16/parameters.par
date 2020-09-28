@@ -1,0 +1,95 @@
+&equations
+MaterialFileName = 'tpv16_material.yaml'
+/
+
+&IniCondition
+/
+
+&Boundaries
+BC_fs = 1
+BC_dr = 1                               ! Fault boundaries
+BC_of = 1                               ! Absorbing boundaries
+/
+
+&DynamicRupture
+FL = 16                     ! Friction law (0: none, 1:self-similar crack, 2:LSW, 3:RS (aging), 4:RS (slip))
+ModelFileName = 'tpv16_fault.yaml' ! read in tpv16 initial stress from external file
+inst_healing = 1
+!GPwise = 1                  ! elementwise =0 ; GPwise =1
+GPwise = 0
+XRef = 0.0                  ! Reference point
+YRef = -1.0e5 
+ZRef = 0.0 
+RF_output_on = 0            ! RF on      
+OutputPointType = 5
+/
+
+&Elementwise
+printIntervalCriterion = 2
+printtimeinterval_sec = 0.25
+!printtimeinterval = 100 ! Index of printed info at timesteps
+!printtimeinterval = 1
+OutputMask = 1 1 1 1 1 1 1 1 1 1 1 ! output 1/ yes, 0/ no - position: 1/ slip rate 2/ stress 3/ normal velocity 4/ in case of rate and state output friction and state variable
+                               ! 5/ background values
+refinement_strategy = 2
+refinement = 3
+/
+
+ 
+&Pickpoint
+printtimeinterval = 1       ! Index of printed info at timesteps
+OutputMask = 1 1 1 0      ! output 1/ yes, 0/ no - position: 1/ slip rate 2/ stress 3/ normal velocity 4/ in case of rate and state output friction and state variable
+                            ! 5/ background values
+nOutpoints = 9
+PPFileName = 'tpv16_faultreceivers.dat'
+/
+
+&SourceType
+/
+
+&SpongeLayer
+/
+            
+&MeshNml
+MeshFile = './mesh/tpv16_200'
+meshgenerator = 'PUML'
+/
+
+&Discretization
+Order = 3                    ! Order of accuracy in space and time
+Material = 1                         ! Material order
+CFL = 0.5                            ! CFL number (<=1.0)
+!CFL = 0.25
+FixTimeStep = 5                      ! Manualy chosen minimum time
+ClusteredLts = 2
+/
+
+&Output
+OutputFile = 'output/tpv16_2'
+iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables ouptut
+iOutputMaskMaterial = 1 1 1          ! Material output
+Format = 6                          ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
+TimeInterval = 0.5                   ! Index of printed info at time
+printIntervalCriterion = 2           ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
+pickdt = 0.005                       ! Pickpoint Sampling
+pickDtType = 1                       ! Pickpoint Type
+FaultOutputFlag = 0                  ! DR output (add this line only if DR is active)
+nRecordPoints = 12                   ! number of Record points which are read from file
+RFileName = 'tpv16_receivers.dat'    ! Record Points in extra file
+SurfaceOutput = 1
+SurfaceOutputRefinement = 2
+SurfaceOutputInterval = 0.25
+/
+
+&Postprocessing
+/
+            
+&AbortCriteria
+EndTime = 15.0
+/
+
+&Analysis
+/
+
+&Debugging
+/

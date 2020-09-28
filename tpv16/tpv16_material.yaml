@@ -1,0 +1,7 @@
+!ConstantMap
+map:
+  lambda: 3.2044e+010
+  mu:     3.2038e+010
+  rho:    2670.
+  Qp:     69.3
+  Qs:     155.9
