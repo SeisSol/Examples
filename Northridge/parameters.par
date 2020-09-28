@@ -22,7 +22,7 @@ FileName = './northridge.nrf' ! input file.
 /
             
 &MeshNml
-MeshFile = './mesh_northridge'
+MeshFile = 'mesh_northridge.puml.h5'
 meshgenerator = 'PUML'                         ! Name of meshgenerator (Gambit3D-fast, Netcdf or PUML)
 /
 
