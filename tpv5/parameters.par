@@ -87,7 +87,6 @@ printIntervalCriterion = 2          ! Criterion for index of printed info: 1=tim
 
 pickdt = 0.005                       ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
-FaultOutputFlag = 1                  ! DR output (add this line only if DR is active)
 nRecordPoints = 6                   ! number of Record points which are read from file
 RFileName = 'tpv5_receivers.dat'      ! Record Points in extra file
 
