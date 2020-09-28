@@ -1,17 +1,16 @@
-&Equations
-rho = 1.
-mu = 1.
-lambda = 2.
-MaterialFileName = material.yaml
+&equations
+!yaml file defining spatial dependance of material properties
+MaterialFileName = 'material.yaml'
 /
 
-&IniCondition                        ! no initial condition
+&IniCondition                                  ! Initial Condition 
 cICType = 'Planarwave'
+! Planarwave  A planar wave for convergence tests, needs periodic boundary conditions
 IniConditionFile = 'initial_condition.dat'
 /
 
-&Boundaries                          ! activate boundary conditions:
-BC_pe = 1                               ! Periodic boundaries
+&Boundaries
+BC_pe = 1                                      ! enable periodic boundaries
 /
 
 &SourceType
@@ -19,35 +18,37 @@ BC_pe = 1                               ! Periodic boundaries
 
 &SpongeLayer
 /
-
+            
 &MeshNml
-MeshFile = 'cube_8'              ! Name of mesh file
-meshgenerator = 'Netcdf'        ! Name of meshgenerator (format)
+MeshFile = 'cube_8'
+meshgenerator = 'Netcdf'                       ! Name of meshgenerator (Gambit3D-fast, Netcdf or PUML)
 /
 
 &Discretization
-Order = 6                            ! Order of accuracy in space and times
-Material = 1                         ! Material order
-CFL = 0.5                            ! CFL number (<=1.0)
-FixTimeStep = 5                      ! Manualy chosen minimum time
-ClusteredLts=1
+CFL = 0.5                                      ! CFL number (<=1.0)
+FixTimeStep = 5                                ! Manualy chosen minimum time
+ClusteredLTS = 1                               ! 1 for Global time stepping, 2,3,5,... Local time stepping (advised value 2)
+!ClusteredLTS defines the multi-rate for the time steps of the clusters 2 for Local time stepping
 /
 
 &Output
 OutputFile = 'output/conv'
-iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables ouptut
-iOutputMaskMaterial = 1 1 1          ! Material output
-Format = 10                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
-Interval = 200                       ! Index of printed info at timesteps
-TimeInterval = 0.01                   ! Index of printed info at time
-printIntervalCriterion = 2           ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
+Format = 10                                    ! Format (10= no output, 6=hdf5 output)
+!             |stress     |vel  |plastic strain output (if any)
+iOutputMask = 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+TimeInterval =  5.                           ! Index of printed info at time
+refinement = 1
+
+printIntervalCriterion = 2          ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
+
 pickdt = 0.05                        ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
 nRecordPoints = 2                    ! number of Record points which are read from file
-RFileName = 'recordPoints.dat'          ! Record Points in extra file
-/
+RFileName = 'recordPoints.dat'       ! Record Points in extra file
 
-&Postprocessing
+xdmfWriterBackend = 'posix' ! (optional) The backend used in fault, wavefield,
+! and free-surface output. The HDF5 backend is only supported when SeisSol is compiled with
+! HDF5 support.
 /
 
 &AbortCriteria
