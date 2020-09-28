@@ -43,7 +43,7 @@ printtimeinterval = 1       ! Index of printed info at timesteps
 OutputMask = 1 1 1 0      ! output 1/ yes, 0/ no - position: 1/ slip rate 2/ stress 3/ normal velocity 4/ in case of rate and state output friction and state variable
                            ! 5/ background values
 nOutpoints = 14
-PPFileName = 'faultreceivers.dat'
+PPFileName = 'tpv24_faultreceivers.dat'
 /
 
 
@@ -82,7 +82,7 @@ SurfaceOutputInterval = 0.10
 pickdt = 0.01                       ! Pickpoint Sampling
 pickDtType = 1                      ! Pickpoint Type
 nRecordPoints = 8                   ! number of Record points which are read from file
-RFileName = 'receivers.dat'          ! Record Points in extra file
+RFileName = 'tpv24_receivers.dat'          ! Record Points in extra file
 /
 
 &AbortCriteria

@@ -49,7 +49,7 @@ printtimeinterval = 1       ! Index of printed info at timesteps
 OutputMask = 1 1 1 1      ! output 1/ yes, 0/ no - position: 1/ slip rate 2/ stress 3/ normal velocity 4/ in case of rate and state output friction and state variable
                             ! 5/ background values
 nOutpoints = 9
-PPFileName = 'FaultReceivers103.dat'
+PPFileName = 'tpv104_faultreceivers.dat'
 /
 
 
@@ -88,7 +88,7 @@ pickdt = 0.005                       ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
 FaultOutputFlag = 1                  ! DR output (add this line only if DR is active)
 nRecordPoints = 6                   ! number of Record points which are read from file
-RFileName = 'Receivers103.dat'      ! Record Points in extra file
+RFileName = 'tpv104_receivers.dat'      ! Record Points in extra file
 !checkPointInterval = 1.5 ! Set to 0 to disable checkpointing
 !checkPointBackend = 'posix' ! Either ’hdf5’, ’mpio’ or ’none’
 /

@@ -84,7 +84,7 @@ SurfaceOutputInterval = 1.0
 pickdt = 0.01                       ! Pickpoint Sampling
 pickDtType = 1                      ! Pickpoint Type
 nRecordPoints = 14                   ! number of Record points which are read from file
-RFileName = 'tpv29-offfaultreceivers.dat'          ! Record Points in extra file
+RFileName = 'tpv29-receivers.dat'          ! Record Points in extra file
 /
 
             
