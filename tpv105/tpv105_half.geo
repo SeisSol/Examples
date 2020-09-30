@@ -140,7 +140,7 @@ Line Loop(106) = {13, 1, 4, 5, 6, 7, 8, 12};
 Plane Surface(108) = {106};
 
 Volume(48) = {47};
-Field[1] = Attractor;
+Field[1] = Distance;
 Field[1].FacesList = {108};
 Field[1].FieldX = -1;
 Field[1].FieldY = -1;

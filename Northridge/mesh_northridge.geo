@@ -56,7 +56,7 @@ Surface Loop(32) = {26, 20, 28, 22, 24, 30};
 Volume(32) = {32};
 Surface{6} In Volume{32};
 
-Field[1] = Attractor;
+Field[1] = Distance;
 Field[1].FacesList = {6};
 Field[1].FieldX = -1;
 Field[1].FieldY = -1;

@@ -129,7 +129,7 @@ Surface{100,200} In Volume{1};
 //1.2 Managing coarsening away from the fault
 // Attractor field returns the distance to the curve (actually, the
 // distance to 100 equidistant points on the curve)
-Field[1] = Attractor;
+Field[1] = Distance;
 Field[1].FacesList = {101};
 
 // Matheval field returns "distance squared + lc/20"
@@ -139,7 +139,7 @@ Field[2] = MathEval;
 Field[2].F = Sprintf("0.05*F1 +(F1/2.5e3)^2 + %g", lc_fault);
 
 //3.4.5 Managing coarsening around the nucleation Patch
-Field[3] = Attractor;
+Field[3] = Distance;
 Field[3].FacesList = {201};
 
 Field[4] = Threshold;
