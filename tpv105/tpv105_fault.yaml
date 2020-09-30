@@ -1,0 +1,70 @@
+!Switch
+[s_xx,s_zz,s_yz,s_xz,nuc_xx,nuc_yy,nuc_zz,nuc_yz,nuc_xz]: !ConstantMap
+  map:
+    s_xx: 0
+    s_zz: 0
+    s_yz: 0
+    s_xz: 0
+    nuc_xx: 0
+    nuc_yy: 0
+    nuc_zz: 0
+    nuc_yz: 0
+    nuc_xz: 0
+[nuc_xy, s_yy, s_xy]: !FunctionMap
+  map:
+    nuc_xy: |
+      r = sqrt(pow(x+4000, 2.) + y*y + pow(z+7500, 2.));
+      if (r <= 1500.0) {
+        return 50*pow(10,6)* exp(r*r / (r*r - 1500*1500));
+      }
+      return 0.0;
+    s_yy: |
+      return  max(1670*9.8*z, -45*pow(10,6));
+    s_xy: |
+      return -0.41* max(1670*9.8*z, -45*pow(10,6));
+[rs_a,rs_srW,alpha_hy]: !EvalModel
+  parameters: [box_x1, box_z2, box_z3]
+  model: !FunctionMap
+    map:
+      box_x1: |
+             ax = abs(x);
+             if (ax<15000) {
+               return 1.0;
+             } else {
+             if (ax<18000) {
+               return 0.5*(1.0+tanh(3000.0/(ax-15000.0-3000.0) + 3000.0 / (ax-15000.0)));
+             } else {
+               return 0.0;
+             }}
+      box_z2: |
+             az = abs(z);
+             if (az<3000) {
+               return 0.5*(1.0+tanh(3000.0/(3000-az) - 3000.0 / az));
+             } else {
+             if (az<15000) {
+               return 1.0;
+             } else {
+             if (az<18000) {
+               return 0.5*(1.0+tanh(3000.0/(az-15000.0-3000.0) + 3000.0 / (az-15000.0)));
+             } else {
+               return 0.0;
+             }}}
+      box_z3: |
+             az = abs(z);
+             if (az<15000) {
+               return 1.0;
+             } else {
+             if (az<18000) {
+               return 0.5*(1.0+tanh(3000.0/(az-15000.0-3000.0) + 3000.0 / (az-15000.0)));
+             } else {
+               return 0.0;
+             }}
+  components: !FunctionMap
+     map:
+        rs_a:   return 0.01 + 0.01 * (1.0 - box_x1*box_z2);
+        rs_srW: return 0.1  + 0.9  * (1.0 - box_x1*box_z2);
+        alpha_hy: return 0.0004  + 1.0  * (1.0 - box_x1*box_z3);
+[RS_sl0, TP_half_width_shear_zone]: !ConstantMap
+  map:
+    RS_sl0: 0.4
+    TP_half_width_shear_zone: 0.02
