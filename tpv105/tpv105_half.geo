@@ -1,7 +1,7 @@
 // Gmsh project created on Tue Sep 24 15:57:06 2019
 
 lc= 5000;
-lc_fault = 100;
+lc_fault = 200;
 //+
 Point(1) = {-22e3, 0, -18e3, lc};
 //+
@@ -132,22 +132,21 @@ Line Loop(45) = {22, -24, 25, 17};
 Plane Surface(46) = {45};
 //+
 Surface Loop(47) = {38, 42, 46, 28, 44, 40, 36, 30, 32, 34};
-//+
-lc_fault=200.;
-
-
-Line Loop(106) = {13, 1, 4, 5, 6, 7, 8, 12};
-Plane Surface(108) = {106};
 
 Volume(48) = {47};
+
+//Distance only works with Ruled surface!
+Line(1000) = {7, 10};
+Line(1001) = {10, 9};
+Line(1002) = {9, 8};
+Line(1003) = {8, 7};
+Line Loop(1000) = {1000,1001,1002,1003};
+Ruled Surface(1000) = {1000};
+
 Field[1] = Distance;
-Field[1].FacesList = {108};
-Field[1].FieldX = -1;
-Field[1].FieldY = -1;
-Field[1].FieldZ = -1;
+Field[1].FacesList = {1000};
 Field[1].NNodesByEdge = 20;
 Field[2] = MathEval;
-//Field[2].F = Sprintf("0.05*F1 +(F1/2.5e3)^2 + %g", lc_fault);
 Field[2].F = Sprintf("0.1*F1 +(F1/5.0e3)^2 + %g", lc_fault);
 Background Field = 2;
 
