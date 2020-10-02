@@ -8,7 +8,7 @@ unzip tpv29_tpv30_geometry_25m_data.zip
 python generate_mytopo_tpv29.py
 
 #generate the skin mesh
-gmsh -3 tpv29.geo
+gmsh -3 tpv29.geo -o tpv29.msh
 
 #compile and run the gmsh_plane2topo
 gfortran gmsh_plane2topo.f90 -o gmsh_plane2topo
