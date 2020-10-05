@@ -1,0 +1,30 @@
+!Switch
+[s_xx,s_yy,s_zz,s_yz,s_xz,nuc_xx,nuc_yy,nuc_zz,nuc_yz,nuc_xz, nuc_xy]: !ConstantMap
+  map:
+    s_xx: 0
+    s_yy: -120e6
+    s_zz: 0
+    s_yz: 0
+    s_xz: 0
+    nuc_xx: 0
+    nuc_yy: 0
+    nuc_zz: 0
+    nuc_yz: 0
+    nuc_xz: 0
+    nuc_xy: 0
+[s_xy]: !FunctionMap
+  map:
+    s_xy: |
+      rx = sqrt(x*x);
+      rz = sqrt((z+7500)*(z+7500));
+      r = max(rx, rz);
+      if (r <= 1500.0) {
+         return 81600000;
+      }
+      return 70000000;
+[mu_s, mu_d, d_c, cohesion]: !ConstantMap
+  map:
+     mu_s:        0.677
+     mu_d:        0.525
+     d_c:         0.4
+     cohesion:    0.0
