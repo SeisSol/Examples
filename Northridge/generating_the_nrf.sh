@@ -4,7 +4,10 @@
 prefix=northridge
 
 #Download the srf file:
-wget http://hypocenter.usc.edu/research/SRF/nr6.70-s0000-h0000.txt -o $prefix.srf
+wget http://hypocenter.usc.edu/research/SRF/nr6.70-s0000-h0000.txt
+
+#merge line 3 and 4
+sed  '3{N;s/\n//;}' nr6.70-s0000-h0000.txt > ${prefix}.srf
 
 #To find the projected coordinates of the fault center, we apply cs2cs (from proj.4):
 echo -118.5150 34.3440 0.0 | cs2cs +proj=lonlat +axis=enu +units=m +to +proj=merc +lon_0=-118 +axis=enu +units=m
