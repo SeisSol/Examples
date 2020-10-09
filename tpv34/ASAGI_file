@@ -1,6 +1,1 @@
-tpv34_mux-fault.nc: 
-https://syncandshare.lrz.de/getlink/fiPzx6ebB4oor4BjtXvpmM92/tpv34_mux-fault.nc
-tpv34_rhomulambda-inner.nc: 
-https://syncandshare.lrz.de/getlink/fiNKHJnRF4BGmLkEPkWu6dLr/tpv34_rhomulambda-inner.nc
-tpv34_rhomulambda-outer.nc: 
-https://syncandshare.lrz.de/getlink/fiApJBqjDQkCiWvmwVv2vdzH/tpv34_rhomulambda-outer.nc
+see https://seissol.readthedocs.io/en/latest/tpv34.html for a script to generate tpv34_mux-fault.nc, tpv34_rhomulambda-inner.nc, and tpv34_rhomulambda-outer.nc files.
