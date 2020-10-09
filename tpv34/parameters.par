@@ -46,7 +46,7 @@ refinement = 1
 ! parameterize ascii fault file outputs
 &Pickpoint
 printtimeinterval = 1       ! Index of printed info at timesteps
-OutputMask = 1 1 1 0        ! turn on and off fault outputs
+OutputMask = 1 1 1 1        ! turn on and off fault outputs
 nOutpoints = 35
 PPFileName = 'tpv34_faultreceivers.dat'
 /
