@@ -7,7 +7,7 @@
 [cohesion]: !FunctionMap
   map:
     cohesion: |
-      return 0.0-425.0*max(z+2400.0,0.0);
+      return -425.0*max(z+2400.0,0.0);
 [s_xx, s_yy, s_zz, s_xy, s_yz, s_xz]: !EvalModel
   parameters: [radius,mux]
   model: !Switch
