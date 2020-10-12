@@ -8,7 +8,7 @@ rake=0
 slip1_cm=100
 slip2_cm=000
 slip3_cm=000
-area=3.0866008336686616479e+011
+area=0.0
 tini=0
 dt=0.0002
 
