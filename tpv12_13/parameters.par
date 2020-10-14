@@ -53,7 +53,7 @@ refinement = 1
 printtimeinterval = 1       ! Index of printed info at timesteps
 OutputMask = 1 1 1 1        ! turn on and off fault outputs
 nOutpoints = 10
-PPFileName = 'tpv13_faultreceivers.dat'
+PPFileName = 'tpv12_13_faultreceivers.dat'
 /
 
 &SourceType
@@ -93,7 +93,7 @@ printIntervalCriterion = 2          ! Criterion for index of printed info: 1=tim
 pickdt = 0.005                       ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
 nRecordPoints = 12                   ! number of Record points which are read from file
-RFileName = 'tpv13_receivers.dat'      ! Record Points in extra file
+RFileName = 'tpv12_13_receivers.dat'      ! Record Points in extra file
 
 xdmfWriterBackend = 'posix' ! (optional) The backend used in fault, wavefield,
 ! and free-surface output. The HDF5 backend is only supported when SeisSol is compiled with

@@ -1,0 +1,102 @@
+&equations
+!yaml file defining spatial dependance of material properties
+MaterialFileName = 'tpv34_material.yaml'
+/
+
+&IniCondition
+/
+
+&Boundaries
+BC_fs = 1                                      ! enable free surface boundaries
+BC_dr = 1                                      ! enable fault boundaries
+BC_of = 1                                      ! enable absorbing boundaries
+/
+
+&DynamicRupture
+FL = 2                                         ! Friction law  
+!0: none, 16:LSW, 103: RS with strong velocity weakening
+!yaml file defining spatial dependance of fault properties
+ModelFileName = 'tpv34_fault.yaml'
+
+
+!reference vector for defining strike and dip direction
+XRef = 0.0                                     ! Reference point
+YRef = -1.0
+ZRef = 0.0
+refPointMethod = 1
+
+RF_output_on = 1                               ! Rupture front ascii output
+magnitude_output_on = 0                        ! Moment magnitude output
+energy_rate_output_on = 0                      ! Moment rate output
+OutputPointType = 5                            ! Type (0: no output, 3: ascii file, 4: paraview file, 5: 3+4)
+SlipRateOutputType = 1      ! 0: (smoother) slip rate output evaluated from the difference between the velocity on both side of the fault
+                            ! 1: slip rate output evaluated from the fault tractions and the failure criterion (less smooth but usually more accurate where the rupture front is well developped)
+/
+
+!see: https://seissol.readthedocs.io/en/latest/fault-output.html
+! parameterize paraview file output
+&Elementwise
+printIntervalCriterion = 2                     ! 1=iteration, 2=time
+printtimeinterval_sec = 1.0                    ! Time interval at which output will be written
+OutputMask = 1 1 1 1 1 1 1 1 1 1 1             ! turn on and off fault outputs
+refinement_strategy = 2
+refinement = 1
+/
+
+! parameterize ascii fault file outputs
+&Pickpoint
+printtimeinterval = 1       ! Index of printed info at timesteps
+OutputMask = 1 1 1 1        ! turn on and off fault outputs
+nOutpoints = 35
+PPFileName = 'tpv34_faultreceivers.dat'
+/
+
+&SourceType
+/
+
+&SpongeLayer
+/
+
+&MeshNml
+MeshFile = 'tpv34_gmsh'
+meshgenerator = 'PUML'                         ! Name of meshgenerator (Gambit3D-fast, Netcdf or PUML)
+/
+
+&Discretization
+CFL = 0.5                                      ! CFL number (<=1.0)
+FixTimeStep = 5                                ! Manualy chosen minimum time
+ClusteredLTS = 2                               ! 1 for Global time stepping, 2,3,5,... Local time stepping (advised value 2)
+!ClusteredLTS defines the multi-rate for the time steps of the clusters 2 for Local time stepping
+/
+
+&Output
+FaultOutputFlag = 1                            ! DR output (add this line only if DR is active)
+OutputFile = 'output/tpv34'
+Format = 6                                     ! Format (10= no output, 6=hdf5 output)
+!             |stress     |vel  |plastic strain output (if any)
+iOutputMask = 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+TimeInterval = 5.0                             ! Index of printed info at time
+refinement = 1
+
+! Free surface output
+SurfaceOutput = 1
+SurfaceOutputRefinement = 2
+SurfaceOutputInterval = 5.0
+
+printIntervalCriterion = 2                     ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
+
+pickdt = 0.005                                 ! Pickpoint Sampling
+pickDtType = 1                                 ! Pickpoint Type
+nRecordPoints = 56                             ! number of Record points which are read from file
+RFileName = 'tpv34_receivers.dat'              ! Record Points in extra file
+/
+
+&AbortCriteria
+EndTime = 20.0
+/
+
+&Analysis
+/
+
+&Debugging
+/

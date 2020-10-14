@@ -1,0 +1,49 @@
+!Switch
+[mu_d, mu_s, d_c]: !ConstantMap
+  map:
+    mu_d: 0.45
+    mu_s: 0.58
+    d_c: 0.18
+[cohesion]: !FunctionMap
+  map:
+    cohesion: |
+      return -425.0*max(z+2400.0,0.0);
+[s_xx, s_yy, s_zz, s_xy, s_yz, s_xz]: !EvalModel
+  parameters: [radius,mux]
+  model: !Switch
+    [mux]: !AffineMap
+      matrix:
+        x: [1.0,0.0,0.0]
+        z: [0.0,0.0,1.0]
+      translation:
+        x: 0.0
+        z: 0.0
+      components: !ASAGI
+        file: tpv34_mux-fault.nc
+        parameters: [mux]
+        var: data
+    [radius]: !FunctionMap
+      map:
+        radius: |
+          xHypo =     0.0;
+          zHypo = -7500.0;
+          return sqrt(((x+xHypo)*(x+xHypo))+((z-zHypo)*(z-zHypo)));
+  components: !FunctionMap
+    map:
+      s_xx:     return -60000000.0*mux;
+      s_yy:     return -60000000.0*mux;
+      s_zz:     return 0.0;
+      s_xy: |
+        pi = 4.0 * atan (1.0);
+        s_xy0 = 30000000.0*mux;
+        s_xy1 = 0.0;
+        if (radius<=1400.0) {
+          s_xy1 = 4950000.0*mux;
+        } else {
+          if (radius<=2000.0) {
+            s_xy1 = 2475000.0*(1.0+cos(pi*(radius-1400.0)/600.0))*mux;
+          }
+        }
+        return s_xy0 + s_xy1;
+      s_yz:     return 0.0;
+      s_xz:     return 0.0;
