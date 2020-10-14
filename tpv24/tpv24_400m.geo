@@ -70,7 +70,7 @@ Plane Surface(1) = {5};
 Extrude {0,0, Zmin} { Surface{1}; }
 
 //Create the fault
-Point(100) = {-Fault_length, 0 , -Fault_width, lc_fault;
+Point(100) = {-Fault_length, 0 , -Fault_width, lc_fault};
 Point(101) = {-Fault_length, 0, 0e3, lc_fault};
 Point(102) = {12e3, 0,  0e3, lc_fault};
 Point(103) = {12e3, 0, -Fault_width, lc_fault};
