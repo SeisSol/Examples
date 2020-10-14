@@ -1,7 +1,7 @@
 !Switch
 [rho, mu, lambda]: !IdentityMap
   components:
-    # apply a finer CVM-H data inside the inner cube
+    # apply a finer CVM-H data inside the refinement zone
     - !AxisAlignedCuboidalDomainFilter
       limits:
         x: [-25000.0, 25000.0]
@@ -11,7 +11,7 @@
         file: tpv34_rhomulambda-inner.nc
         parameters: [rho, mu, lambda]
         var: data
-    # apply a coarser CVM-H data outside the inner cube
+    # apply a coarser CVM-H data outside the refinement zone
     - !ASAGI
         file: tpv34_rhomulambda-outer.nc
         parameters: [rho, mu, lambda]
