@@ -35,7 +35,7 @@ ClusteredLTS = 2                               ! 1 for Global time stepping, 2,3
 
 &Output
 FaultOutputFlag = 1                            ! DR output (add this line only if DR is active)
-OutputFile = 'output/tpv24'
+OutputFile = 'output/northridge'
 Format = 6                                     ! Format (10= no output, 6=hdf5 output)
 !             |stress     |vel  |plastic strain output (if any)
 iOutputMask = 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
