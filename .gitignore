@@ -1,0 +1,10 @@
+*.neu
+*.msh
+*.h5
+*.nrf
+*.xdmf
+*output
+WP2_LOH1/LOH1_source_50.dat
+WP2_LOH1/source.srf
+*SeisSol_*
+
