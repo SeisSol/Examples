@@ -1,0 +1,10 @@
+*.pyc
+
+convergence/do_all_the_convergence_tests/jobs
+convergence/do_all_the_convergence_tests/logs
+convergence/do_all_the_convergence_tests/mesh
+convergence/do_all_the_convergence_tests/par
+convergence/do_all_the_convergence_tests/plots
+convergence/do_all_the_convergence_tests/SeisSol*
+convergence/do_all_the_convergence_tests/convergence.csv
+

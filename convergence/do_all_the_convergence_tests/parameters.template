@@ -1,11 +1,11 @@
 &Equations
-MaterialFileName = 'material.yaml'
+MaterialFileName = 'MATERIAL_FILE'
 FreqCentral = 1.
 FreqRatio = 100.
 /
 
 &IniCondition                        ! no initial condition
-cICType = 'Planarwave'
+cICType = 'INITIAL_CONDITION'
 /
 
 &Boundaries                          ! activate boundary conditions:

@@ -9,7 +9,7 @@
 
 #Notification and type
 #SBATCH --mail-type=END
-#SBATCH --mail-user=TODO
+#SBATCH --mail-user=USER_TODO
 
 # Wall clock limit:
 #SBATCH --time=10:00
@@ -17,7 +17,7 @@
 
 #Setup of execution environment
 #SBATCH --export=ALL
-#SBATCH --account=TODO
+#SBATCH --account=USER_TODO
 #constraints are optional
 #--constraint="scratch&work"
 #SBATCH --partition=PARTITION
