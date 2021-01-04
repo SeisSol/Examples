@@ -9,19 +9,19 @@ from shutil import copy
 from pathlib import Path
 import math
 
-### Settings for SuperMUC-NG
-# on_a_cluster = True
-# host_arch = 'skx'
-# orders = range(2,8)
-# resolutions = range(2,7)
-# compilers = ['mpiicc', 'mpiicpc', 'mpiifort']
-
-### Settings for Sebastians workstation
-on_a_cluster = False
-host_arch = "hsw"
-orders = range(3, 7)
-resolutions = range(2, 5)
-compilers = ["mpicc", "mpicxx", "mpif90"]
+### Machine dependend settings
+# does the machine support distributed memory parallelism?
+on_a_cluster = {"supermuc": True, "local": False}
+# cpu architecture of the cluster
+host_arch = {"supermuc": "skx", "local": "hsw"}
+# convergence orders to test for
+orders = {"supermuc": range(2,8), "local": range(3,7)}
+# mesh resolutions to test for
+resolutions = {"supermuc": range(2,7), "local": range(2,5)}
+# list of compilers in the order C Compiler, C++ compiler, Fortran compiler
+compilers = {"supermuc": ['mpiicc', 'mpiicpc', 'mpiifort'], "local": ["mpicc", "mpicxx", "mpif90"]}
+# cluster specific mpiexec command 
+mpiexec = {"supermuc": "mpiexec", "local": None}
 
 cmd_line_parser = ArgumentParser()
 cmd_line_parser.add_argument("seissol_dir", type=str)
@@ -37,16 +37,24 @@ cmd_line_parser.add_argument(
     choices=["elastic", "viscoelastic", "viscoelastic2", "anisotropic"],
     default="elastic",
 )
-cmd_line_parser.add_argument("--mpiexec", type=str, default="mpiexec")
+cmd_line_parser.add_argument(
+    "--cluster",
+    type=str,
+    choices=["supermuc", "local"],
+    default="supermuc",
+)
 args = cmd_line_parser.parse_args()
 
 
-def partition(nodes):
-    if nodes <= 16:
-        return "micro"
-    elif nodes <= 768:
-        return "general"
-    return "large"
+def partition(nodes, cluster="supermuc"):
+    if cluster == "supermuc":
+        if nodes <= 16:
+            return "micro"
+        elif nodes <= 768:
+            return "general"
+        return "large"
+    else:
+        raise NotImplementedError
 
 
 def num_mechs(eq):
@@ -122,7 +130,7 @@ initial_condition = {
     "anisotropic": "SuperimposedPlanarwave",
 }
 
-archs = [arch_name(p, host_arch) for p in precision]
+archs = [arch_name(p, host_arch[args.cluster]) for p in precision]
 equations = args.equations
 
 if args.steps in ["build", "all"]:
@@ -134,7 +142,7 @@ if args.steps in ["build", "all"]:
                 raise
     os.chdir("build_convergence")
     for prec in precision:
-        for o in orders:
+        for o in orders[args.cluster]:
             compile_cmd = (
                 "CC={} CXX={} FC={} cmake .. "
                 "-DCMAKE_BUILD_TYPE=Release "
@@ -146,12 +154,12 @@ if args.steps in ["build", "all"]:
                 "-DORDER={} "
                 "-DPRECISION={} "
                 "-DTESTING=OFF && make -j8".format(
-                    compilers[0],
-                    compilers[1],
-                    compilers[2],
-                    on_off(on_a_cluster),
+                    compilers[args.cluster][0],
+                    compilers[args.cluster][1],
+                    compilers[args.cluster][2],
+                    on_off(on_a_cluster[args.cluster]),
                     equations,
-                    host_arch,
+                    host_arch[args.cluster],
                     num_mechs(equations),
                     o,
                     prec,
@@ -165,7 +173,7 @@ if args.steps in ["build", "all"]:
                 print(cpe.output)
                 quit()
             num_quantities = 9 + 6 * num_mechs(equations)
-            sn = seissol_name(arch_name(prec, host_arch), equations, o, "Release")
+            sn = seissol_name(arch_name(prec, host_arch[args.cluster]), equations, o, "Release")
             copy_source = sn
             copy_target = os.path.join(cwd, sn)
             copy(copy_source, copy_target)
@@ -194,43 +202,41 @@ if args.steps in ["prepare", "all"]:
 
 if args.steps in ["run", "all"]:
     for arch in archs:
-        for o in orders:
-            for n in resolutions:
+        for o in orders[args.cluster]:
+            for n in resolutions[args.cluster]:
                 log_file = os.path.join(log_dir, log_name(arch, equations, o, n))
                 nodes = parts[n] ** 3
-                if not on_a_cluster:
-                    run_cmd = "OMP_NUM_THREADS=8 ./{} {}".format(
+                job = Path("{}.template".format(args.cluster)).read_text()
+                if not on_a_cluster[args.cluster]:
+                    run_cmd = "./{} {}".format(
                         seissol_name(arch, equations, o), par_name(equations, n)
                     )
                     run_cmd += " > " + log_file
-                    print(run_cmd)
-                    os.system(run_cmd)
                 else:
                     run_cmd = "{} -n {} ./{} {}".format(
-                        args.mpiexec,
+                        mpiexec[args.cluster],
                         nodes,
                         seissol_name(arch, equations, o),
                         par_name(equations, n),
                     )
-                    job = Path("job.template").read_text()
-                    job = job.replace("WORK_DIR", cwd)
-                    job = job.replace("LOG_FILE", log_file)
+                    job = job.replace("PARTITION", partition(nodes, args.cluster))
                     job = job.replace("NODES", str(nodes))
-                    job = job.replace("PARTITION", partition(nodes))
-                    file_name = os.path.join(job_dir, job_name(arch, equations, o, n))
-                    with open(file_name, "w") as f:
-                        f.write(job)
-                        f.write(run_cmd + "\n")
-                    print(
-                        "Created SLURM job file {}. Run with sbatch.".format(file_name)
-                    )
+                    job = job.replace("LOG_FILE", log_file)
+                job = job.replace("WORK_DIR", cwd)
+                file_name = os.path.join(job_dir, job_name(arch, equations, o, n))
+                with open(file_name, "w") as f:
+                    f.write(job)
+                    f.write(run_cmd + "\n")
+                print(
+                    "Created job file {}.".format(file_name)
+                )
 
 if args.steps in ["analyse", "all"]:
     with open(convergence_file, "w") as result_file:
         result_file.write("arch,equations,order,h,norm,var,error\n")
         for arch in archs:
-            for o in orders:
-                for n in resolutions:
+            for o in orders[args.cluster]:
+                for n in resolutions[args.cluster]:
                     log_file = os.path.join(log_dir, log_name(arch, equations, o, n))
                     result = Path(log_file).read_text()
                     for line in result.split("\n"):
