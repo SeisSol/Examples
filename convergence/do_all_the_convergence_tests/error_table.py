@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 import numpy as np
+import scipy.stats as sp_stat
 import pandas as pd
 
 
@@ -21,11 +22,14 @@ def calculate_error_rates(errors_df):
                     np.round(resolutions[r], 3), np.round(resolutions[r + 1], 3)
                 )
                 d.update({resolution_decay: rate})
+
+            regression = sp_stat.linregress(np.log(conv_df[["h", "error"]].values))
+            d.update({"regression": regression.slope})
+
             rate_dicts.append(d)
 
     rate_df = pd.DataFrame(rate_dicts)
     return rate_df
-
 
 cmd_line_parser = ArgumentParser()
 cmd_line_parser.add_argument("convergence_file", type=str, default="convergence.csv")
