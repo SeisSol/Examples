@@ -14,7 +14,7 @@ import math
 # host_arch = 'skx'
 # orders = range(2,8)
 # resolutions = range(2,7)
-# compilers = ['mpiicc', 'mpiicpc', 'mpiifor']
+# compilers = ['mpiicc', 'mpiicpc', 'mpiifort']
 
 ### Settings for Sebastians workstation
 on_a_cluster = False
