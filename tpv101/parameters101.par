@@ -16,7 +16,7 @@ BC_of = 1                                      ! enable absorbing boundaries
 
 
 &DynamicRupture
-FL = 3                                       ! Friction law  
+FL = 3                                       ! Friction law
 !0: none, 16:LSW, 3: RS Ageing Law, 4: RS Slip Law, 103: RS with strong velocity weakening
 !yaml file defining spatial dependance of fault properties
 ModelFileName = 'tpv101_fault.yaml'
@@ -41,7 +41,7 @@ refPointMethod = 1
 RF_output_on = 0                               ! Rupture front ascii output
 magnitude_output_on =0                         ! Moment magnitude output
 energy_rate_output_on =0                       ! Moment rate output
-OutputPointType = 4                            ! Type (0: no output, 3: ascii file, 4: paraview file, 5: 3+4)
+OutputPointType = 5                            ! Type (0: no output, 3: ascii file, 4: paraview file, 5: 3+4)
 SlipRateOutputType=0        ! 0: (smoother) slip rate output evaluated from the difference between the velocity on both side of the fault
                             ! 1: slip rate output evaluated from the fault tractions and the failure criterion (less smooth but usually more accurate where the rupture front is well developped)
 /
@@ -51,7 +51,7 @@ SlipRateOutputType=0        ! 0: (smoother) slip rate output evaluated from the 
 &Elementwise
 printIntervalCriterion = 2                     ! 1=iteration, 2=time
 printtimeinterval_sec = 0.5                    ! Time interval at which output will be written
-OutputMask = 1 1 1 1 1 1 1 1 1 1 1 !           ! turn on and off fault outputs
+OutputMask = 1 1 1 1 1 1 1 1 1 1 1 1 !           ! turn on and off fault outputs
 refinement_strategy = 2
 refinement = 1
 /
@@ -59,7 +59,7 @@ refinement = 1
 ! parameterize ascii fault file outputs
 &Pickpoint
 printtimeinterval = 1       ! Index of printed info at timesteps
-OutputMask = 1 1 1 1 1 1 1 1 1 1 1 !           ! turn on and off fault outputs
+OutputMask = 1 1 1 1 1 1 1 1 1 1 1 1 !           ! turn on and off fault outputs
 nOutpoints = 9
 PPFileName = 'tpv105_faultreceivers.dat'
 /
@@ -69,9 +69,9 @@ PPFileName = 'tpv105_faultreceivers.dat'
 
 &SpongeLayer
 /
-            
+
 &MeshNml
-MeshFile = 'mesh/tpv_5'
+MeshFile = 'mesh/tpv103-nsym-250'
 meshgenerator = 'PUML'                         ! Name of meshgenerator (Gambit3D-fast, Netcdf or PUML)
 /
 
@@ -121,3 +121,4 @@ EndTime = 15.0
 
 &Debugging
 /
+
