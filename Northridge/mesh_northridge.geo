@@ -43,13 +43,20 @@ faultlength = 20e3;
 faultwidth = 25e3 ;
 region = 200e3 ;
 depth = 60e3;
-dip = 52*Pi/180;
-stk = (122-90)*Pi/180;
+dip = 40*Pi/180;
+stk = 122*Pi/180;
+top_depth = 5e3;
 
-Point(1) = {0.5*faultlength*Cos(stk),  -0.5*faultlength*Sin(stk), -5e3, lc_fault};
-Point(4) = {-0.5*faultlength*Cos(stk), 0.5*faultlength*Sin(stk), -5e3, lc_fault};
-Point(5) = {-0.5*faultlength*Cos(stk)-faultwidth*Sin(dip)*Sin(stk), 0.5*faultlength*Sin(stk)-faultwidth*Cos(stk)*Sin(dip), -(5e3+1*faultwidth)*Cos(dip), lc_fault};
-Point(6) = {0.5*faultlength*Cos(stk)-faultwidth*Sin(dip)*Sin(stk), -0.5*faultlength*Sin(stk)-faultwidth*Cos(stk)*Sin(dip),  -(5e3+1*faultwidth)*Cos(dip), lc_fault};
+x1=0.5*faultlength*Sin(stk);
+y1=0.5*faultlength*Cos(stk);
+
+
+Point(1) = {x1, y1, -top_depth, lc_fault};
+Point(4) = {-x1, -y1, -top_depth, lc_fault};
+Point(6) = {x1 + faultwidth* Cos(stk) * Cos(dip), y1 - faultwidth* Sin(stk) * Cos(dip), -top_depth -faultwidth*Sin(dip), lc_fault};
+Point(5) = {-x1 + faultwidth* Cos(stk) * Cos(dip), -y1 - faultwidth* Sin(stk) * Cos(dip), -top_depth -faultwidth*Sin(dip), lc_fault};
+//Point(5) = {-0.5*faultlength*Cos(stk)-faultwidth*Sin(dip)*Sin(stk), 0.5*faultlength*Sin(stk)-faultwidth*Cos(stk)*Sin(dip), -top_depth -faultwidth*Sin(dip), lc_fault};
+//Point(6) = {0.5*faultlength*Cos(stk)-faultwidth*Sin(dip)*Sin(stk), -0.5*faultlength*Sin(stk)-faultwidth*Cos(stk)*Sin(dip), -top_depth -faultwidth*Sin(dip), lc_fault};
 
 Point(7) = {0.5*region, 0.5*region, -depth, lc};
 Point(8) = {0.5*region, -0.5*region, -depth, lc};
