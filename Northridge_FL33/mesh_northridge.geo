@@ -113,6 +113,6 @@ Background Field = 2;
 
 Physical Surface(101) = {30};
 Physical Surface(105) = {20, 22, 24, 26, 28};
-//Physical Surface(103) = {6};
+Physical Surface(103) = {6};
 Physical Volume(32) = {32};
 Mesh.MshFileVersion = 2.2;

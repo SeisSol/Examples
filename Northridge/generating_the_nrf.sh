@@ -10,7 +10,7 @@ sed -i "s/\r//g" ${prefix}.srf
 
 # Now upsample the srf file with this script:
 # This assumes SeisSol/SeisSol has been clone in ~
-python ~/SeisSol/SeisSol/preprocessing/science/kinematic_models/refine_srf.py ${prefix}.srf --spatial_zoom 10 --temporal_zoom 10
+python ~/SeisSol/SeisSol/preprocessing/science/kinematic_models/refine_srf.py ${prefix}.srf --spatial_zoom 4 --temporal_zoom 10
 
 #Now we create the nrf file using:
 #build rconv following the procedure described at https://github.com/SeisSol/SeisSol/tree/master/preprocessing/science/rconv

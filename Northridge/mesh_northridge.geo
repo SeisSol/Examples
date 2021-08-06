@@ -45,7 +45,8 @@ region = 200e3 ;
 depth = 60e3;
 dip = 40*Pi/180;
 stk = 122*Pi/180;
-top_depth = 5e3;
+//add +0.3*lc_fault: I guess we don't want to have point source exactly between elements
+top_depth = 5e3+0.3*lc_fault;
 
 x1=0.5*faultlength*Sin(stk);
 y1=0.5*faultlength*Cos(stk);
