@@ -1,0 +1,22 @@
+!Any
+components:
+  - !AxisAlignedCuboidalDomainFilter
+    limits:
+      x: [-.inf, .inf]
+      y: [-.inf, .inf]
+      z: [0, .inf]
+    components: !ConstantMap
+      map:
+        rho: 1
+        mu: 4
+        lambda: 1
+  - !AxisAlignedCuboidalDomainFilter
+    limits:
+      x: [-.inf, .inf]
+      y: [-.inf, .inf]
+      z: [-.inf, 0] 
+    components: !ConstantMap
+      map:
+        rho: 1
+        mu: 0
+        lambda: 1
