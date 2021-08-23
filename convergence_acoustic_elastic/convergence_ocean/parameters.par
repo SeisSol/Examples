@@ -19,9 +19,6 @@ cICType = 'Ocean_1'
 
 &MeshNml
 MeshFile = 'meshes/mesh_1.h5'
-vertexWeightElement = 100
-vertexWeightDynamicRupture = 100
-vertexWeightDisplacement = 50
 meshgenerator = 'PUML'        ! Name of meshgenerator (format)
 /
 
