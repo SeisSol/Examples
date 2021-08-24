@@ -46,13 +46,13 @@ python write_cvmh_input.py
 wget --no-check-certificate http://strike.scec.org/cvws/download/cvmh/cvmh-15.1.0.tar.gz
 tar -zxvf cvmh-15.1.0.tar.gz
 cd cvmh-15.1.0
-./configure --prefix=${INSTALL_DIR}
+./configure --prefix=${INSTALL_DIR}/cvmh-15.1.0
 make
 make check
 make install
-${INSTALL_DIR}/bin/vx_lite -s -z dep -m ${INSTALL_DIR}/model < infile-inner > outfile-inner
-${INSTALL_DIR}/bin/vx_lite -s -z dep -m ${INSTALL_DIR}/model < infile-outer > outfile-outer
-${INSTALL_DIR}/bin/vx_lite -s -z dep -m ${INSTALL_DIR}/model < infile-fault > outfile-fault
+${INSTALL_DIR}/cvmh-15.1.0/bin/vx_lite -s -z dep -m ${INSTALL_DIR}/cvmh-15.1.0/model < infile-inner > outfile-inner
+${INSTALL_DIR}/cvmh-15.1.0/bin/vx_lite -s -z dep -m ${INSTALL_DIR}/cvmh-15.1.0/model < infile-outer > outfile-outer
+${INSTALL_DIR}/cvmh-15.1.0/bin/vx_lite -s -z dep -m ${INSTALL_DIR}/cvmh-15.1.0/model < infile-fault > outfile-fault
 
 # Step 5: Obtain the values of Vp, Vs, and Rho from the vx_lite output file. 
 # The output file is a text file that contains 19 columns. 
