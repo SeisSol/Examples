@@ -6,7 +6,7 @@
       limits:
         x: [-25000.0, 25000.0]
         y: [-25000.0, 25000.0]
-        z: [-25000.0, 0.0]
+        z: [-15000.0, 0.0]
       components: !ASAGI
         file: tpv34_rhomulambda-inner.nc
         parameters: [rho, mu, lambda]
