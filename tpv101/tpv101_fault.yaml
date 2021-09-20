@@ -4,7 +4,7 @@
     s_xx: 0
     s_yy: -120e6
     s_zz: 0
-    s_xy: 40e6
+    s_xy: 75e6
     s_yz: 0
     s_xz: 0
     nuc_xx: 0
@@ -17,10 +17,10 @@
     nuc_xy: |
       r = sqrt(x*x + y*y + pow(z+7500, 2.));
       if (r <= 3000.0) {
-        return 45000000.0 * exp(r*r / (r*r - 9000000));
+        return 25000000.0 * exp(r*r / (r*r - 9000000));
       }
       return 0.0;
-[rs_a,rs_srW]: !FunctionMap
+[rs_a]: !FunctionMap
   map:
     x1: return min(18000.0, max(15000., abs(x)));
     z1: return min(18000.0, max(15000., abs(z)));
@@ -30,9 +30,7 @@
           box_z: return 0.5*(1.0+tanh(3000.0/(z1-15000.0-3000.0) + 3000.0 / (z1-15000.0)));
         components: !FunctionMap
           map:
-            rs_a:   return 0.01 + 0.01 * (1.0 - box_x*box_z);
-            rs_srW: return 0.1  + 0.9  * (1.0 - box_x*box_z);
+            rs_a:   return 0.008 + 0.008 * (1.0 - box_x*box_z);
 [RS_sl0]: !ConstantMap
   map:
-    RS_sl0: 0.4
-
+    RS_sl0: 0.02

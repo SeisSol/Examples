@@ -1,10 +1,13 @@
 
 fout=open('LOH1_source_50.dat', 'w')
 
+# Note that we use a moment tensor definition that differs with the standards in Seismology (e.g. Komatitsch and Tromp, 1999).
+# the moment tensor is opposite to the usual definition
+
 header=\
 """ seismic moment tensor
- 0.00000E+00 0.10000E+19 0.00000E+00
- 0.10000E+19 0.00000E+00 0.00000E+00
+ 0.00000E+00 -0.10000E+19 0.00000E+00
+ -0.10000E+19 0.00000E+00 0.00000E+00
  0.00000E+00 0.00000E+00 0.00000E+00
  number of faults
                      1

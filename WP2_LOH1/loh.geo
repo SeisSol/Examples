@@ -1,17 +1,21 @@
-cl__1 = 5000;
-Point(1) = {32000, 32000, 0, 5000};
-Point(2) = {32000, 32000, 1000, 5000};
-Point(3) = {-26000, 32000, 1000, 5000};
-Point(4) = {-26000, 32000, 0, 5000};
-Point(5) = {-26000, -26000, 0, 5000};
-Point(6) = {-26000, -26000, 1000, 5000};
-Point(7) = {32000, -26000, 1000, 5000};
-Point(8) = {32000, -26000, 0, 5000};
-Point(9) = {32000, 32000, 34000, 5000};
-Point(10) = {-26000, 32000, 34000, 5000};
-Point(11) = {32000, -26000, 34000, 5000};
-Point(12) = {-26000, -26000, 34000, 5000};
-Point(13) = {4000, 4000, 1500, 5000};
+/*
+ * @author Carsten Uphoff and Duo Li
+ */
+ 
+cl_1 = 5000;
+Point(1) = {32000, 32000, 0, cl_1};
+Point(2) = {32000, 32000, 1000, cl_1};
+Point(3) = {-26000, 32000, 1000, cl_1};
+Point(4) = {-26000, 32000, 0, cl_1};
+Point(5) = {-26000, -26000, 0, cl_1};
+Point(6) = {-26000, -26000, 1000, cl_1};
+Point(7) = {32000, -26000, 1000, cl_1};
+Point(8) = {32000, -26000, 0, cl_1};
+Point(9) = {32000, 32000, 34000, cl_1};
+Point(10) = {-26000, 32000, 34000, cl_1};
+Point(11) = {32000, -26000, 34000, cl_1};
+Point(12) = {-26000, -26000, 34000, cl_1};
+Point(13) = {4000, 4000, 1500, cl_1};
 Line(1) = {4, 5};
 Line(2) = {5, 8};
 Line(3) = {8, 7};
@@ -62,6 +66,7 @@ Physical Surface(101) = {42};
 Physical Surface(105) = {22, 24, 26, 28, 30, 34, 36, 38, 40};
 Physical Volume(1) = {2};
 Physical Volume(2) = {1};
+// define refined box
 Field[1] = Box;
 Field[1].VIn = 200;
 Field[1].VOut = 3000;
@@ -71,11 +76,15 @@ Field[1].YMax = 12000;
 Field[1].YMin = -2500;
 Field[1].ZMax = 6000;
 Field[1].ZMin = 0;
+// define distance to reference point 13
 Field[2] = Distance;
 Field[2].NodesList = {13};
+// define radial refinement method
 Field[3] = MathEval;
 Field[3].F = "150 + F2^2/6000^2*100";
 Field[4] = Min;
 Field[4].FieldsList = {1, 3};
+// final 
 Background Field = 4;
+// specify gmsh version 
 Mesh.MshFileVersion = 2.2;
