@@ -48,15 +48,15 @@ gmsh2gambit -i planar-anydip.msh -o planar-anydip.neu
 lc = 25e3;
 lc_fault = 200;
 
-Fault_length = 30e3;
-Fault_width = 15e3;
+Fault_length = 44e3;
+Fault_width = 22e3;
 Fault_dip = 90*Pi/180.;
 
 //Nucleation in X,Z local coordinates
 X_nucl = 0e3;
 Width_nucl = 0.5*Fault_width;
 R_nucl = 1.5e3;
-lc_nucl = 300;
+lc_nucl = 200;
 
 Xmax = 60e3;
 Xmin = -Xmax;
