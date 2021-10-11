@@ -16,7 +16,7 @@ BC_of = 1                                      ! enable absorbing boundaries
 FL = 16                                        ! Friction law  
 !0: none, 16:LSW, 103: RS with strong velocity weakening
 !yaml file defining spatial dependance of fault properties
-ModelFileName = 'tpv24_fault.yaml'
+ModelFileName = 'tpv16_fault.yaml'
 
 !characteristic time of the forced nucleation
 t_0 = 0.5
