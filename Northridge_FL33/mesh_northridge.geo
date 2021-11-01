@@ -45,8 +45,7 @@ region = 200e3 ;
 depth = 60e3;
 dip = 40*Pi/180;
 stk = 122*Pi/180;
-//add +0.3*lc_fault: I guess we don't want to have point source exactly between elements
-top_depth = 5e3+0.3*lc_fault;
+top_depth = 5e3;
 
 x1=0.5*faultlength*Sin(stk);
 y1=0.5*faultlength*Cos(stk);
@@ -112,6 +111,6 @@ Background Field = 2;
 
 Physical Surface(101) = {30};
 Physical Surface(105) = {20, 22, 24, 26, 28};
-// Physical Surface(103) = {6};
+Physical Surface(103) = {6};
 Physical Volume(32) = {32};
 Mesh.MshFileVersion = 2.2;

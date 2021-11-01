@@ -1,0 +1,1 @@
+../Northridge/generating_the_mesh.sh
