@@ -281,7 +281,7 @@ CONTAINS
    end if       
    
    read(1,*,iostat=err,iomsg=msg) ytopo(1:ny)
-   ytopo(1:ny) = -ytopo(1:ny)
+   !ytopo(1:ny) = -ytopo(1:ny)
 
    if (err /= 0) then
       write(*,'(a,/,a)')'Error in ReadTopo:',trim(msg)
