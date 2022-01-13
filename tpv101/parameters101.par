@@ -94,7 +94,6 @@ TimeInterval =  100.                           ! Index of printed info at time
 refinement = 1
 
 ! off-fault ascii receivers
-nRecordPoints = 6                              ! number of Record points which are read from file
 RFileName = 'tpv101_receivers.dat'          ! Record Points in extra file
 pickdt = 0.005                                 ! Pickpoint Sampling
 pickDtType = 1                                 ! Pickpoint Type
