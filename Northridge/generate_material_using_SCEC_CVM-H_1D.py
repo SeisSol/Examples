@@ -11,7 +11,7 @@ def compute_nu(rho):
         return 0.40 - ((rho - 2060.0) * 0.15 / 440.0)
 
 
-def compute_rho_mu_lambda(Vp):
+def compute_rho_mu_lambda_qp_qs(Vp):
     Vp = Vp * 1000.0
     rho = 1865.0 + 0.1579 * Vp
     nu = compute_nu(rho)
@@ -22,6 +22,7 @@ def compute_rho_mu_lambda(Vp):
 
 
 # SCEC CVM-H 1D model
+# https://strike.scec.org/scecpedia/CVM-H_User_Guide
 aDepth = [-1, 0, 5, 6, 10, 15.5, 16.5, 22.0, 31.0, 33.0, 1000]
 aVp = [5.0, 5.0, 5.5, 6.3, 6.3, 6.4, 6.7, 6.75, 6.8, 7.8, 7.8]
 
@@ -37,7 +38,7 @@ nodes:"""
 
 
 for i in range(len(aDepth)):
-    rho, mu, lam, Qp, Qs = compute_rho_mu_lambda(aVp[i])
+    rho, mu, lam, Qp, Qs = compute_rho_mu_lambda_qp_qs(aVp[i])
     smaterial += (
         f"\n   {-aDepth[i]*1e3} : [{rho:.2f} ,{mu:e} ,{lam:e}, {Qp:.2f}, {Qs:.2f}]"
     )
