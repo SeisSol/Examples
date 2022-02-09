@@ -1,6 +1,6 @@
 &Equations
 MaterialFileName = 'material.yaml'
-BoundaryFileName = 'rigid.yaml'
+BoundaryFileName = 'rigid.yaml' ! setups ocean floor bc which is a rigid wall
 GravitationalAcceleration = 9.81e-03
 /
 
@@ -23,22 +23,16 @@ meshgenerator = 'PUML'        ! Name of meshgenerator (format)
 /
 
 &Discretization
-Order = 6                            ! Order of accuracy in space and times
-Material = 1                         ! Material order
 CFL = 0.5                            ! CFL number (<=1.0)
-FixTimeStep = 5                      ! Manualy chosen minimum time
 ClusteredLts = 2
 /
 
 &Output
 OutputFile = 'output/conv'
 iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables ouptut
-iOutputMaskMaterial = 1 1 1          ! Material output
 Format = 10                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
 refinement = 0 
-Interval = 200                       ! Index of printed info at timesteps
 TimeInterval = 0.1                  ! Index of printed info at time
-printIntervalCriterion = 2           ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
 pickdt = 0.002                        ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
 RFileName = 'recordPoints.dat'          ! Record Points in extra file
@@ -47,14 +41,6 @@ SurfaceOutputRefinement = 3
 SurfaceOutputInterval = 0.05
 /
 
-
-&Elementwise
-printIntervalCriterion = 2
-printtimeinterval_sec = 0.01
-OutputMask = 1 1 1 1 1 1 1 1 1 1 1
-refinement_strategy = 2
-refinement = 2
-/
 
 &Postprocessing
 /
