@@ -40,7 +40,6 @@ TimeInterval = 0.1                 ! Index of printed info at time
 printIntervalCriterion = 2           ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
 pickdt = 0.05                        ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
-nRecordPoints = 2                    ! number of Record points which are read from file
 RFileName = 'recordPoints.dat'          ! Record Points in extra file
 SurfaceOutput = 1
 SurfaceOutputRefinement = 1

@@ -16,7 +16,7 @@ cICType = 'Snell'
 /
 
 &MeshNml
-MeshFile = 'meshes/mesh_4.h5' 
+MeshFile = 'meshes/mesh_1.h5' 
 meshgenerator = 'PUML'        ! Name of meshgenerator (format)
 /
 
@@ -24,7 +24,7 @@ meshgenerator = 'PUML'        ! Name of meshgenerator (format)
 Order = 6                            ! Order of accuracy in space and times
 Material = 1                         ! Material order
 CFL = 0.5                            ! CFL number (<=1.0)
-ClusteredLts =2! 2
+ClusteredLts =2
 /
 
 
@@ -42,7 +42,6 @@ TimeInterval = 0.02 !1                  ! Index of printed info at time
 printIntervalCriterion = 2           ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
 pickdt = 0.05                        ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
-nRecordPoints = 2                    ! number of Record points which are read from file
 RFileName = 'recordPoints.dat'          ! Record Points in extra file
 /
 
@@ -52,7 +51,6 @@ RFileName = 'recordPoints.dat'          ! Record Points in extra file
 
 &AbortCriteria
 EndTime = 0.1
-!EndTime = 0.0217988
 /
 
 &Debugging

@@ -34,14 +34,13 @@ ClusteredLts = 2
 OutputFile = 'output/conv'
 iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables ouptut
 iOutputMaskMaterial = 1 1 1          ! Material output
-Format = 10!6                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
+Format = 10                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
 refinement = 0 
 Interval = 200                       ! Index of printed info at timesteps
 TimeInterval = 0.1                  ! Index of printed info at time
 printIntervalCriterion = 2           ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
-pickdt = 0.002 !0.05                        ! Pickpoint Sampling
+pickdt = 0.002                        ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
-nRecordPoints = 2                    ! number of Record points which are read from file
 RFileName = 'recordPoints.dat'          ! Record Points in extra file
 SurfaceOutput = 1
 SurfaceOutputRefinement = 3
@@ -61,8 +60,7 @@ refinement = 2
 /
 
 &AbortCriteria
-EndTime = 0.2
-!EndTime = 1.0
+EndTime = 10.0
 /
 
 &Debugging
