@@ -19,8 +19,6 @@ fi
 
 echo "Meshing $scenario for levels up to $upper_limit."
 
-mkdir -p meshes
-
 declare -r scenario_dir="convergence_${scenario}/"
 declare -r template_name="${scenario_dir}/mesh_template.geo"
 mkdir -p "${scenario_dir}/meshes"

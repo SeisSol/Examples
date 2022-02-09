@@ -61,6 +61,5 @@ Transfinite Surface {25} = {1,5,6,2};
 Transfinite Volume{1} = {1,2,3,4,5,6,7,8};
 
 // 6 = periodic, 7 = analytical
-// TODO(Lukas) Uncomment next line
 Physical Surface(7) = {15,17,19,21,23,25};
 Physical Volume(1) = {1};
