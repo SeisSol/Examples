@@ -1,0 +1,7 @@
+!Any
+components:
+    !ConstantMap
+      map:
+        rho: 1
+        mu: 0
+        lambda: 2.25

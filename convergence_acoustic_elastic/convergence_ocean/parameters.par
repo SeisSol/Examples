@@ -1,0 +1,53 @@
+&Equations
+MaterialFileName = 'material.yaml'
+BoundaryFileName = 'rigid.yaml' ! setups ocean floor bc which is a rigid wall
+GravitationalAcceleration = 9.81e-03
+/
+
+&IniCondition                        ! no initial condition
+cICType = 'Ocean_1'
+/
+
+&Boundaries                          ! activate boundary conditions:
+/
+
+&SourceType
+/
+
+&SpongeLayer
+/
+
+&MeshNml
+MeshFile = 'meshes/mesh_1.h5'
+meshgenerator = 'PUML'        ! Name of meshgenerator (format)
+/
+
+&Discretization
+CFL = 0.5                            ! CFL number (<=1.0)
+ClusteredLts = 2
+/
+
+&Output
+OutputFile = 'output/conv'
+iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables ouptut
+Format = 10                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
+refinement = 0 
+TimeInterval = 0.1                  ! Index of printed info at time
+pickdt = 0.002                        ! Pickpoint Sampling
+pickDtType = 1                       ! Pickpoint Type
+RFileName = 'recordPoints.dat'          ! Record Points in extra file
+SurfaceOutput = 1
+SurfaceOutputRefinement = 3
+SurfaceOutputInterval = 0.05
+/
+
+
+&Postprocessing
+/
+
+&AbortCriteria
+EndTime = 10.0
+/
+
+&Debugging
+/
