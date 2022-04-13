@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import numpy as np
 lon=0
 lat=0

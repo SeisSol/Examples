@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 fout=open('LOH1_source_50.dat', 'w')
 
