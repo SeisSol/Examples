@@ -90,10 +90,12 @@ FaultOutputFlag = 1                  ! DR output (add this line only if DR is ac
 RFileName = 'tpv104_receivers.dat'      ! Record Points in extra file
 !checkPointInterval = 1.5 ! Set to 0 to disable checkpointing
 !checkPointBackend = 'posix' ! Either ’hdf5’, ’mpio’ or ’none’
+
+EnergyOutput = 1 ! Computation of energy, written in csv file
+EnergyTerminalOutput = 1 ! Write energy to standard output
+EnergyOutputInterval = 0.5
 /
 
-/
-            
 &AbortCriteria
 EndTime = 10.0
 /
@@ -102,4 +104,4 @@ EndTime = 10.0
 /
 
 &Debugging
-
+/
