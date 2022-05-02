@@ -1,6 +1,8 @@
 &equations
 !yaml file defining spatial dependance of material properties
 MaterialFileName = 'northridge_material.yaml'
+FreqCentral=0.3
+FreqRatio=100
 /
 
 &IniCondition
@@ -28,7 +30,6 @@ meshgenerator = 'PUML'                         ! Name of meshgenerator (Gambit3D
 
 &Discretization
 CFL = 0.5                                      ! CFL number (<=1.0)
-FixTimeStep = 5                                ! Manualy chosen minimum time
 ClusteredLTS = 2                               ! 1 for Global time stepping, 2,3,5,... Local time stepping (advised value 2)
 !ClusteredLTS defines the multi-rate for the time steps of the clusters 2 for Local time stepping
 /
@@ -58,6 +59,10 @@ RFileName = 'offreceivers.dat'       ! Record Points in extra file
 xdmfWriterBackend = 'posix' ! (optional) The backend used in fault, wavefield,
 ! and free-surface output. The HDF5 backend is only supported when SeisSol is compiled with
 ! HDF5 support.
+
+EnergyOutput = 1 ! Computation of energy, written in csv file
+EnergyTerminalOutput = 1 ! Write energy to standard output
+EnergyOutputInterval = 0.5
 /
 
 &AbortCriteria

@@ -173,5 +173,6 @@ Physical Surface(103) = {100,200};
 //This ones are read in the gui
 Physical Surface(105) = {14,18,22,26,27};
 
+Mesh.Algorithm3D = 'HXT'
 Physical Volume(1) = {1};
 Mesh.MshFileVersion = 2.2;
