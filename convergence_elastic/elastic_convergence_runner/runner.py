@@ -96,7 +96,7 @@ class Runner:
         print(line)
         
   def _collect_results(self, size):
-    csv_file_path = os.path.join(self._tmp_dir, f'{size}-analysis.csv')
+    csv_file_path = os.path.join(self._tmp_dir, f'{size}_analysis.csv')
     collected_results = pd.read_csv(csv_file_path, sep=',')
     self._data.append({size: collected_results})
     
