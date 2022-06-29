@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 # Step 5: Obtain the values of Vp, Vs, and Rho from the vx_lite output file. 
 # The output file is a text file that contains 19 columns. 
