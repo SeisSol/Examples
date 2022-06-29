@@ -33,9 +33,12 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- Generate SeisSol mesh with
+
+ Generate mirror mesh about fault plane with:
+
  gmsh -3 tpv5_f200_halfdom.geo
  pumgen tpv5_f200_halfdom.msh -s msh2
+ python mirrorMesh.py tpv5_f200_halfdom.xdmf 1 0
 */
 
 lc= 5000;
