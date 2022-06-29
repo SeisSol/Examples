@@ -42,7 +42,7 @@
 */
 
 lc= 5000;
-lc_fault = 100;
+lc_fault = 200;
 
 Point(1) = {-50000, 0, -50000, lc};
 Point(2) = {-50000, 0, 0, lc};
@@ -52,15 +52,22 @@ Point(100) = {-15000, 0, -15000, lc};
 Point(101) = {15000, 0, -15000, lc};
 Point(102) = {15000, 0, 0, lc};
 Point(103) = {-15000, 0, 0, lc};
-Point(200) = {0, 0, -7500, lc_fault};
-Point(201) = {0, 0, -6100, lc_fault};
-Point(202) = {1400, 0, -7500, lc_fault};
-Point(203) = {0, 0, -8900, lc_fault};
-Point(204) = {-1400, 0, -7500, lc_fault};
-Point(211) = {0, 0, -5500, lc_fault};
-Point(212) = {2000, 0, -7500, lc_fault};
-Point(213) = {0, 0, -9500, lc_fault};
-Point(214) = {-2000, 0, -7500, lc_fault};
+
+//Nucleation in X,Z local coordinates
+X_nucl = 0e3;
+Width_nucl = 7500;
+R_nucl = 1.5e3;
+lc_nucl = 200;
+
+Point(201) = {X_nucl + R_nucl , 0.0, -(Width_nucl+R_nucl) , lc_nucl};
+Point(202) = {X_nucl + R_nucl , 0.0, -(Width_nucl-R_nucl) , lc_nucl};
+Point(203) = {X_nucl - R_nucl , 0.0, -(Width_nucl-R_nucl) , lc_nucl};
+Point(204) = {X_nucl - R_nucl , 0.0 , -(Width_nucl+R_nucl) , lc_nucl};
+Line(200) = {201, 202};
+Line(201) = {202, 203};
+Line(202) = {203, 204};
+Line(203) = {204, 201};
+
 Point(1011) = {-50000, 50000, -50000, lc};
 Point(1012) = {-50000, 50000, 0, lc};
 Point(1013) = {50000, 50000, 0, lc};
@@ -74,14 +81,7 @@ Line(6) = {102, 3};
 Line(7) = {3, 4};
 Line(8) = {4, 1};
 Line(9) = {103, 102};
-Circle(200) = {201, 200, 202};
-Circle(201) = {202, 200, 203};
-Circle(202) = {203, 200, 204};
-Circle(203) = {204, 200, 201};
-Circle(210) = {211, 200, 212};
-Circle(211) = {212, 200, 213};
-Circle(212) = {213, 200, 214};
-Circle(213) = {214, 200, 211};
+
 Line(216) = {2, 1012};
 Line(218) = {3, 1013};
 Line(220) = {4, 1014};
@@ -92,10 +92,9 @@ Line(236) = {1013, 1012};
 Line(237) = {1011, 1014};
 Line Loop(1) = {1, 2, 3, 4, 5, 6, 7, 8};
 Plane Surface(1) = {1};
-Line Loop(2) = {3, 4, 5, -9, 210, 211, 212, 213};
+Line Loop(2) = {3, 4, 5, -9, 200,201,202,203};
 Plane Surface(2) = {2};
-Line Loop(3) = {210, 211, 212, 213, 200, 201, 202, 203};
-Plane Surface(3) = {3};
+
 Line Loop(4) = {200, 201, 202, 203};
 Plane Surface(4) = {4};
 Line Loop(242) = {1, 216, -235, 233};
@@ -110,7 +109,7 @@ Line Loop(258) = {2, 9, 6, 218, 236, -216};
 Plane Surface(258) = {258};
 Line Loop(10000) = {3, 4, 5, -9};
 Ruled Surface(10000) = {10000};
-Surface Loop(274) = {1, 2, 3, 4, 242, 248, 250, 256, 258};
+Surface Loop(274) = {1, 2,  4, 242, 248, 250, 256, 258};
 Volume(274) = {274};
 
 Field[1] = Distance;
