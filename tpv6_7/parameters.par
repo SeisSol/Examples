@@ -28,8 +28,6 @@ ZRef = 0.0
 refPointMethod = 1
 
 RF_output_on = 1                               ! Rupture front ascii output
-magnitude_output_on =0                         ! Moment magnitude output
-energy_rate_output_on =1                       ! Moment rate output
 OutputPointType = 5                            ! Type (0: no output, 3: ascii file, 4: paraview file, 5: 3+4)
 SlipRateOutputType=1        ! 0: (smoother) slip rate output evaluated from the difference between the velocity on both side of the fault
                             ! 1: slip rate output evaluated from the fault tractions and the failure criterion (less smooth but usually more accurate where the rupture front is well developped)
@@ -75,8 +73,10 @@ ClusteredLTS = 2                               ! 1 for Global time stepping, 2,3
 FaultOutputFlag = 1                            ! DR output (add this line only if DR is active)
 OutputFile = 'output/tpv6'
 Format = 10                                    ! Format (10= no output, 6=hdf5 output)
-!             |stress     |vel  |plastic strain output (if any)
-iOutputMask = 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+!             |stress     |vel
+iOutputMask = 0 0 0 0 0 0 1 1 1
+!                 |strain     |eta
+iPlasticityMask = 0 0 0 0 0 0 1
 TimeInterval =  5.                           ! Index of printed info at time
 refinement = 1
 
@@ -89,12 +89,15 @@ printIntervalCriterion = 2          ! Criterion for index of printed info: 1=tim
 
 pickdt = 0.005                       ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
-nRecordPoints = 6                   ! number of Record points which are read from file
 RFileName = 'tpv6_receivers.dat'      ! Record Points in extra file
 
 xdmfWriterBackend = 'posix' ! (optional) The backend used in fault, wavefield,
 ! and free-surface output. The HDF5 backend is only supported when SeisSol is compiled with
 ! HDF5 support.
+
+EnergyOutput = 1 ! Computation of energy, written in csv file
+EnergyTerminalOutput = 1 ! Write energy to standard output
+EnergyOutputInterval = 0.5
 /
 
 &AbortCriteria

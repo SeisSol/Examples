@@ -154,3 +154,5 @@ Physical Surface(105) = {38, 44, 46, 40};
 Physical Surface(101) = {42};
 Physical Surface(103) = {30,34,36,32};
 Physical Volume(2) = {48};
+
+Mesh.MshFileVersion = 2.2;

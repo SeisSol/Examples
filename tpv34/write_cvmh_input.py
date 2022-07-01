@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 # Step 1: Let (x, y, z) be a point at which you want to obtain material properties, 
 # in the coordinate system, which is defined as follows:
