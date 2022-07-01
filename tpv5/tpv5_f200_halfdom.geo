@@ -43,7 +43,7 @@
 
 lc= 5000;
 lc_fault = 200;
-lc_topo = 1000;
+lc_topo = 5000;
 
 Fault_length = 30e3;
 Fault_width = 15e3;
@@ -58,10 +58,10 @@ Point(1) = {Xmin, 0, Zmin, lc};
 Point(2) = {Xmin, 0, 0, lc_topo};
 Point(3) = {Xmax, 0, 0, lc_topo};
 Point(4) = {Xmax, 0, Zmin, lc};
-Point(100) = {-0.5*Fault_length, 0, -Fault_width, lc};
-Point(101) = {0.5*Fault_length, 0, -Fault_width, lc};
-Point(102) = {0.5*Fault_length, 0, 0, lc_topo};
-Point(103) = {-0.5*Fault_length, 0, 0, lc_topo};
+Point(100) = {-0.5*Fault_length, 0, -Fault_width, lc_fault};
+Point(101) = {0.5*Fault_length, 0, -Fault_width, lc_fault};
+Point(102) = {0.5*Fault_length, 0, 0, lc_fault};
+Point(103) = {-0.5*Fault_length, 0, 0, lc_fault};
 
 //Nucleation in X,Z local coordinates
 X_nucl = 0e3;
@@ -107,6 +107,7 @@ Plane Surface(2) = {2};
 
 Line Loop(4) = {200, 201, 202, 203};
 Plane Surface(4) = {4};
+
 Line Loop(242) = {1, 216, -235, 233};
 Plane Surface(242) = {242};
 Line Loop(248) = {-8, 220, -237, 233};
@@ -120,11 +121,11 @@ Plane Surface(258) = {258};
 Line Loop(10000) = {3, 4, 5, -9};
 Plane Surface(10000) = {10000};
 Surface Loop(274) = {1, 2,  4, 242, 248, 250, 256, 258};
+
 Volume(274) = {274};
 
 Field[1] = Distance;
-Field[1].FacesList = {10000};
-Field[1].NNodesByEdge = 20;
+Field[1].FacesList = {2,4};
 Field[2] = MathEval;
 Field[2].F = Sprintf("0.1*F1 +(F1/5.0e3)^2 + %g", lc_fault);
 
