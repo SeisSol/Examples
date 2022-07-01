@@ -22,9 +22,24 @@
          return 81600000;
       }
       return 70000000;
-[mu_s, mu_d, d_c, cohesion]: !ConstantMap
+[mu_s]: !FunctionMap
   map:
-     mu_s:        0.677
+    x: return abs(x);
+    z: return abs(z);
+  components:
+    - !AxisAlignedCuboidalDomainFilter
+      limits:
+        x: [0, 15000]
+        z: [0, 15000]
+      components: !ConstantMap
+        map:
+          mu_s:   0.677
+    - !ConstantMap
+        map:
+          mu_s: 1000.0
+[mu_d, d_c, cohesion]: !ConstantMap
+  map:
      mu_d:        0.525
      d_c:         0.4
      cohesion:    0.0
+
