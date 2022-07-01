@@ -43,15 +43,25 @@
 
 lc= 5000;
 lc_fault = 200;
+lc_topo = 1000;
 
-Point(1) = {-50000, 0, -50000, lc};
-Point(2) = {-50000, 0, 0, lc};
-Point(3) = {50000, 0, 0, lc};
-Point(4) = {50000, 0, -50000, lc};
-Point(100) = {-15000, 0, -15000, lc};
-Point(101) = {15000, 0, -15000, lc};
-Point(102) = {15000, 0, 0, lc};
-Point(103) = {-15000, 0, 0, lc};
+Fault_length = 30e3;
+Fault_width = 15e3;
+
+Xmax = 50e3;
+Xmin = -Xmax;
+Ymin = 0.0;
+Ymax =  Xmax;
+Zmin = -Xmax;
+
+Point(1) = {Xmin, 0, Zmin, lc};
+Point(2) = {Xmin, 0, 0, lc_topo};
+Point(3) = {Xmax, 0, 0, lc_topo};
+Point(4) = {Xmax, 0, Zmin, lc};
+Point(100) = {-0.5*Fault_length, 0, -Fault_width, lc};
+Point(101) = {0.5*Fault_length, 0, -Fault_width, lc};
+Point(102) = {0.5*Fault_length, 0, 0, lc_topo};
+Point(103) = {-0.5*Fault_length, 0, 0, lc_topo};
 
 //Nucleation in X,Z local coordinates
 X_nucl = 0e3;
@@ -68,10 +78,10 @@ Line(201) = {202, 203};
 Line(202) = {203, 204};
 Line(203) = {204, 201};
 
-Point(1011) = {-50000, 50000, -50000, lc};
-Point(1012) = {-50000, 50000, 0, lc};
-Point(1013) = {50000, 50000, 0, lc};
-Point(1014) = {50000, 50000, -50000, lc};
+Point(1011) = {Xmin, Ymax, Zmin, lc};
+Point(1012) = {Xmin, Ymax, 0, lc_topo};
+Point(1013) = {Xmax, Ymax, 0, lc_topo};
+Point(1014) = {Xmax, Ymax, Zmin, lc};
 Line(1) = {1, 2};
 Line(2) = {2, 103};
 Line(3) = {103, 100};
@@ -108,7 +118,7 @@ Plane Surface(256) = {256};
 Line Loop(258) = {2, 9, 6, 218, 236, -216};
 Plane Surface(258) = {258};
 Line Loop(10000) = {3, 4, 5, -9};
-Ruled Surface(10000) = {10000};
+Plane Surface(10000) = {10000};
 Surface Loop(274) = {1, 2,  4, 242, 248, 250, 256, 258};
 Volume(274) = {274};
 
@@ -116,12 +126,17 @@ Field[1] = Distance;
 Field[1].FacesList = {10000};
 Field[1].NNodesByEdge = 20;
 Field[2] = MathEval;
-//Field[2].F = Sprintf("0.05*F1 +(F1/2.5e3)^2 + %g", lc_fault);
 Field[2].F = Sprintf("0.1*F1 +(F1/5.0e3)^2 + %g", lc_fault);
-Background Field = 2;
+
+Field[3] = Distance;
+Field[3].FacesList = {258};
+Field[4] = MathEval;
+Field[4].F = Sprintf("0.1*F3 +(F3/5.0e3)^2 + %g", lc_topo);
+Background Field = 4;
+
 
 Physical Surface(101) = {258};
 Physical Surface(105) = {242, 248, 250, 256};
-Physical Surface(103) = {2, 3, 4};
+Physical Surface(103) = {2, 4};
 Physical Volume(1) = {274};
 Mesh.MshFileVersion = 2.2;

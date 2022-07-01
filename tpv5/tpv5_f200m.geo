@@ -38,18 +38,18 @@
 19.02.2016
 Create a planar fault of given dimension and dip angle, the nucleation is also included in the geometry
 To use obtain the mesh:
-gmsh planar-anydip.geo -3 -optimize
+gmsh tpv5_f200m.geo -3 -optimize
 To convert the mesh:
-gmsh2gambit -i planar-anydip.msh -o planar-anydip.neu
+pumgen tpv5_f200m.msh -s msh2
 
  */
 
 
-lc = 25e3;
+lc = 5e3;
 lc_fault = 200;
 
-Fault_length = 44e3;
-Fault_width = 22e3;
+Fault_length = 30e3;
+Fault_width = 15e3;
 Fault_dip = 90*Pi/180.;
 
 //Nucleation in X,Z local coordinates
