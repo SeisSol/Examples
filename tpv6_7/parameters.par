@@ -17,8 +17,8 @@ FL = 6                                         ! Friction law
 !0: none, 16:LSW, 103: RS with strong velocity weakening
 !yaml file defining spatial dependance of fault properties
 ModelFileName = 'fault.yaml'
-v_star = 1                                     ! Prakash-Clifton regularization parameter
-L = 0.01
+v_star = 0.1                                     ! Prakash-Clifton regularization parameter
+L = 0.5
 
 
 !reference vector for defining strike and dip direction
@@ -29,7 +29,7 @@ refPointMethod = 1
 
 RF_output_on = 1                               ! Rupture front ascii output
 OutputPointType = 5                            ! Type (0: no output, 3: ascii file, 4: paraview file, 5: 3+4)
-SlipRateOutputType=1        ! 0: (smoother) slip rate output evaluated from the difference between the velocity on both side of the fault
+SlipRateOutputType=0        ! 0: (smoother) slip rate output evaluated from the difference between the velocity on both side of the fault
                             ! 1: slip rate output evaluated from the fault tractions and the failure criterion (less smooth but usually more accurate where the rupture front is well developped)
 /
 
@@ -58,7 +58,7 @@ PPFileName = 'tpv6_faultreceivers.dat'
 /
             
 &MeshNml
-MeshFile = 'tpv5_f200m.puml.h5'
+MeshFile = 'tpv5_f200_halfdom_sym'
 meshgenerator = 'PUML'                         ! Name of meshgenerator (Gambit3D-fast, Netcdf or PUML)
 /
 
@@ -75,8 +75,6 @@ OutputFile = 'output/tpv6'
 Format = 10                                    ! Format (10= no output, 6=hdf5 output)
 !             |stress     |vel
 iOutputMask = 0 0 0 0 0 0 1 1 1
-!                 |strain     |eta
-iPlasticityMask = 0 0 0 0 0 0 1
 TimeInterval =  5.                           ! Index of printed info at time
 refinement = 1
 
