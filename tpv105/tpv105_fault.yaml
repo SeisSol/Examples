@@ -64,7 +64,7 @@
         rs_a:   return 0.01 + 0.01 * (1.0 - box_x1*box_z2);
         rs_srW: return 0.1  + 0.9  * (1.0 - box_x1*box_z2);
         alpha_hy: return 0.0004  + 1.0  * (1.0 - box_x1*box_z3);
-[RS_sl0, TP_half_width_shear_zone]: !ConstantMap
+[rs_sl0, TP_half_width_shear_zone]: !ConstantMap
   map:
-    RS_sl0: 0.4
+    rs_sl0: 0.4
     TP_half_width_shear_zone: 0.02
