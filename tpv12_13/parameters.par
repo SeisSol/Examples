@@ -16,7 +16,7 @@ BC_of = 1                                      ! enable absorbing boundaries
 /
 
 &DynamicRupture
-FL = 2                                        ! Friction law  
+FL = 16                                        ! Friction law  
 !0: none, 2:LSW  16:LSW (with forced_rupture_time), 103: RS with strong velocity weakening
 !yaml file defining spatial dependance of fault properties
 ModelFileName = 'tpv12_13_fault.yaml'
