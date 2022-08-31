@@ -32,7 +32,6 @@
           map:
             rs_a:   return 0.01 + 0.01 * (1.0 - box_x*box_z);
             rs_srW: return 0.1  + 0.9  * (1.0 - box_x*box_z);
-[RS_sl0]: !ConstantMap
+[rs_sl0]: !ConstantMap
   map:
-    RS_sl0: 0.4
-
+    rs_sl0: 0.4

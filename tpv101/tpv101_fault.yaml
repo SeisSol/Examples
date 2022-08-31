@@ -31,6 +31,6 @@
         components: !FunctionMap
           map:
             rs_a:   return 0.008 + 0.008 * (1.0 - box_x*box_z);
-[RS_sl0]: !ConstantMap
+[rs_sl0]: !ConstantMap
   map:
-    RS_sl0: 0.02
+    rs_sl0: 0.02

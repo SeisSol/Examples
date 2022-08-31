@@ -17,8 +17,8 @@ FL = 6                                         ! Friction law
 !0: none, 16:LSW, 103: RS with strong velocity weakening
 !yaml file defining spatial dependance of fault properties
 ModelFileName = 'fault.yaml'
-v_star = 1                                     ! Prakash-Clifton regularization parameter
-L = 0.01
+pc_vStar = 1                                     ! Prakash-Clifton regularization parameter
+pc_prakashLength = 0.01
 
 
 !reference vector for defining strike and dip direction

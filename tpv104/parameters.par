@@ -19,10 +19,9 @@ GPwise = 1                  ! elementwise =0 ; GPwise =1
 RS_f0 = 0.6
 RS_sr0 = 1d-6
 RS_b = 0.014
-!RS_sl0 = 0.4
-Mu_W=0.2
+SR_muW=0.2
 RS_iniSlipRate1 = 1d-16
-RS_iniSlipRate2 = 0d0
+RS_iniSlipRate2 = 0.0
 t_0 = 0.50
 
 XRef = 0.0                  ! Reference point
