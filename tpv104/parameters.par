@@ -70,7 +70,6 @@ Material = 1                         ! Material order
 CFL = 0.5                            ! CFL number (<=1.0)
 FixTimeStep = 5                      ! Manualy chosen minimum time
 
-DGMethod = 1                         ! Local time stepping
 !IterationCriterion = 1               ! Local time stepping synchronisation criterion
 ClusteredLTS =2
 /
