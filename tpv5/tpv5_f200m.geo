@@ -33,14 +33,10 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
-
- Generate SeisSol mesh with
- gmsh -3 -algo hxt tpv5_f200m.geo
- pumgen tpv5_f200m.msh -s msh2
 */
 
 
-lc = 25e3;
+lc = 5e3;
 lc_fault = 200;
 
 Fault_length = 30e3;
@@ -51,7 +47,7 @@ Fault_dip = 90*Pi/180.;
 X_nucl = 0e3;
 Width_nucl = 0.5*Fault_width;
 R_nucl = 1.5e3;
-lc_nucl = 300;
+lc_nucl = 200;
 
 Xmax = 60e3;
 Xmin = -Xmax;
