@@ -15,7 +15,7 @@
   ## near side of the fault
     - !ConstantMap
       map:
-        rho:    2760
+        rho:    2670
         mu:     32038120320
         lambda: 32043759360
   
