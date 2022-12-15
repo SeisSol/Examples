@@ -1,0 +1,56 @@
+&equations
+MaterialFileName = '{{ working_dir }}/material.yaml'
+/
+
+&IniCondition
+cICType = 'Planarwave'
+/
+
+&Boundaries
+BC_pe = 1
+/
+
+&SourceType
+/
+
+&SpongeLayer
+/
+
+&MeshNml
+MeshFile = '{{ working_dir }}/{{ mesh_file }}'
+meshgenerator = 'Netcdf'
+/
+
+&Discretization
+CFL = 0.5
+FixTimeStep = 5
+ClusteredLTS = 1
+/
+
+&Output
+OutputFile = '{{ working_dir }}'
+Format = 10
+iOutputMask = 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+TimeInterval =  5.
+refinement = 1
+
+printIntervalCriterion = 2
+
+pickdt = 0.05
+pickDtType = 1
+nRecordPoints = 2
+RFileName = '{{ working_dir }}/recordPoints.dat'
+
+xdmfWriterBackend = 'posix'
+/
+
+&AbortCriteria
+EndTime = {{ end_time }}
+/
+
+&Analysis
+typ = 3
+/
+
+&Debugging
+/

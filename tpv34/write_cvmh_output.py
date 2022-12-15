@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 # Step 5: Obtain the values of Vp, Vs, and Rho from the vx_lite output file. 
 # The output file is a text file that contains 19 columns. 
@@ -86,9 +86,10 @@ x_nc = np.arange(X_min/2,X_max/2+dgrid,dgrid)
 y_nc = np.arange(Y_min/2,Y_max/2+dgrid,dgrid)
 z_nc = np.arange(fault_width_min,-fault_width_max-dgrid,-dgrid)
 
-rho = VpVsRho_inner.T[2]
-mu  = VpVsRho_inner.T[1] ** 2 * rho
-lam = VpVsRho_inner.T[0] ** 2 * rho - 2 * mu
+VpVsRho_inner = VpVsRho_inner.reshape((len(z_nc),len(y_nc),len(x_nc),3))
+rho = VpVsRho_inner[:,:,:,2]
+mu  = VpVsRho_inner[:,:,:,1] ** 2 * rho
+lam = VpVsRho_inner[:,:,:,0] ** 2 * rho - 2 * mu
 
 print('Writing NetCDF file')
 nc = Dataset('tpv34_rhomulambda-inner.nc', "w", format="NETCDF4")
@@ -108,8 +109,9 @@ mattype8 = np.dtype([('rho','f8'),('mu','f8'),('lambda','f8')])
 mattype = nc.createCompoundType(mattype4,'material')
 
 # transform to an array of tuples
-arr = np.stack((rho,mu,lam), axis=1)
+arr = np.stack((rho,mu,lam), axis=3)
 arr = arr.view(dtype=mattype8)
+arr = arr.reshape(arr.shape[:-1])
 mat = nc.createVariable("data",mattype,("z","y","x"))
 mat[:] = arr
 nc.close()
@@ -121,9 +123,10 @@ x_nc = np.arange(X_min,X_max+dgrid,dgrid)
 y_nc = np.arange(Y_min,Y_max+dgrid,dgrid)
 z_nc = -np.arange(Z_min,Z_max+dgrid,dgrid)
 
-rho = VpVsRho_outer.T[2]
-mu  = VpVsRho_outer.T[1] ** 2 * rho
-lam = VpVsRho_outer.T[0] ** 2 * rho - 2 * mu
+VpVsRho_outer = VpVsRho_outer.reshape((len(z_nc),len(y_nc),len(x_nc),3))
+rho = VpVsRho_outer[:,:,:,2]
+mu  = VpVsRho_outer[:,:,:,1] ** 2 * rho
+lam = VpVsRho_outer[:,:,:,0] ** 2 * rho - 2 * mu
 
 print('Writing NetCDF file')
 nc = Dataset('tpv34_rhomulambda-outer.nc', "w", format="NETCDF4")
@@ -144,8 +147,9 @@ mattype8 = np.dtype([('rho','f8'),('mu','f8'),('lambda','f8')])
 mattype = nc.createCompoundType(mattype4,'material')
 
 # transform to an array of tuples
-arr = np.stack((rho,mu,lam), axis=1)
+arr = np.stack((rho,mu,lam), axis=3)
 arr = arr.view(dtype=mattype8)
+arr = arr.reshape(arr.shape[:-1])
 mat = nc.createVariable("data",mattype,("z","y","x"))
 mat[:] = arr
 nc.close()
@@ -156,11 +160,12 @@ fgrid = 100
 x_nc = np.arange(fault_length_min,fault_length_max+fgrid,fgrid)
 z_nc = np.arange(fault_width_min,-fault_width_max-fgrid,-fgrid)
 
-rho = VpVsRho_fault.T[2]
-mu  = VpVsRho_fault.T[1] ** 2 * rho
+VpVsRho_fault = VpVsRho_fault.reshape((len(z_nc),len(x_nc),3))
+rho = VpVsRho_fault[:,:,2]
+mu  = VpVsRho_fault[:,:,1] ** 2 * rho
 # mu0 is the value of the shear modulus in benchmark TPV5 and many other benchmarks
 mu0 = 32038120320.0 # in Pa
-mux = mu /  mu0
+mux = mu / mu0
 
 print('Writing NetCDF file')
 nc = Dataset('tpv34_mux-fault.nc', "w", format="NETCDF4")

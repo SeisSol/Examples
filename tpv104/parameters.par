@@ -19,10 +19,9 @@ GPwise = 1                  ! elementwise =0 ; GPwise =1
 RS_f0 = 0.6
 RS_sr0 = 1d-6
 RS_b = 0.014
-!RS_sl0 = 0.4
-Mu_W=0.2
+RS_muW=0.2
 RS_iniSlipRate1 = 1d-16
-RS_iniSlipRate2 = 0d0
+RS_iniSlipRate2 = 0.0
 t_0 = 0.50
 
 XRef = 0.0                  ! Reference point
@@ -87,14 +86,15 @@ printIntervalCriterion = 2           ! Criterion for index of printed info: 1=ti
 pickdt = 0.005                       ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
 FaultOutputFlag = 1                  ! DR output (add this line only if DR is active)
-nRecordPoints = 6                   ! number of Record points which are read from file
 RFileName = 'tpv104_receivers.dat'      ! Record Points in extra file
 !checkPointInterval = 1.5 ! Set to 0 to disable checkpointing
 !checkPointBackend = 'posix' ! Either ’hdf5’, ’mpio’ or ’none’
+
+EnergyOutput = 1 ! Computation of energy, written in csv file
+EnergyTerminalOutput = 1 ! Write energy to standard output
+EnergyOutputInterval = 0.5
 /
 
-/
-            
 &AbortCriteria
 EndTime = 10.0
 /
@@ -103,4 +103,4 @@ EndTime = 10.0
 /
 
 &Debugging
-
+/

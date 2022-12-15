@@ -1,4 +1,3 @@
-/*
 /**
  * @file
  * This file is part of SeisSol.
@@ -6,7 +5,7 @@
  * @author Thomas Ulrich 
  *
  * @section LICENSE
- * Copyright (c) 2014-2015, SeisSol Group
+ * Copyright (c) 2014-2022, SeisSol Group
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -34,15 +33,7 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- 
-19.02.2016
-Create a planar fault of given dimension and dip angle, the nucleation is also included in the geometry
-To use obtain the mesh:
-gmsh tpv5_f200m.geo -3 -optimize
-To convert the mesh:
-pumgen tpv5_f200m.msh -s msh2
-
- */
+*/
 
 
 lc = 5e3;
@@ -52,7 +43,7 @@ Fault_length = 30e3;
 Fault_width = 15e3;
 Fault_dip = 90*Pi/180.;
 
-//Nucleation in X,Z local coordinates
+// Nucleation in X,Z local coordinates
 X_nucl = 0e3;
 Width_nucl = 0.5*Fault_width;
 R_nucl = 1.5e3;
@@ -64,8 +55,7 @@ Ymin = -Xmax +  0.5 * Fault_width  *Cos(Fault_dip);
 Ymax =  Xmax + 0.5 * Fault_width  *Cos(Fault_dip);
 Zmin = -Xmax;
 
-
-//Create the Volume
+// Create the Volume
 Point(1) = {Xmin, Ymin, 0, lc};
 Point(2) = {Xmin, Ymax, 0, lc};
 Point(3) = {Xmax, Ymax, 0, lc};
@@ -74,11 +64,11 @@ Line(1) = {1, 2};
 Line(2) = {2, 3};
 Line(3) = {3, 4};
 Line(4) = {4, 1};
-Line Loop(5) = {1,2,3,4};
+Curve Loop(5) = {1,2,3,4};
 Plane Surface(1) = {5};
 Extrude {0,0, Zmin} { Surface{1}; }
 
-//Create the fault
+// Create the fault
 Point(100) = {-0.5*Fault_length, Fault_width  *Cos(Fault_dip), -Fault_width  *Sin(Fault_dip), lc};
 Point(101) = {-0.5*Fault_length, 0, 0e3, lc};
 Point(102) = {0.5*Fault_length, 0,  0e3, lc};
@@ -89,7 +79,7 @@ Line{101} In Surface{1};
 Line(102) = {102, 103};
 Line(103) = {103, 100};
 
-//create nucleation patch
+// Create nucleation patch
 /*
 Point(200) = {X_nucl, Width_nucl*Cos(Fault_dip), -Width_nucl  *Sin(Fault_dip), lc_nucl};
 Point(201) = {X_nucl, (Width_nucl + R_nucl) * Cos(Fault_dip), -(Width_nucl+R_nucl)  *Sin(Fault_dip), lc_nucl};
@@ -100,7 +90,7 @@ Circle(200) = {201,200,202};
 Circle(201) = {202,200,203};
 Circle(202) = {203,200,204};
 Circle(203) = {204,200,201};
-Line Loop(204) = {200,201,202,203};
+Curve Loop(204) = {200,201,202,203};
 Plane Surface(200) = {204};
 */
 
@@ -112,21 +102,20 @@ Line(200) = {201, 202};
 Line(201) = {202, 203};
 Line(202) = {203, 204};
 Line(203) = {204, 201};
-Line Loop(204) = {200,201,202,203};
+Curve Loop(204) = {200,201,202,203};
 Plane Surface(200) = {204};
 
-Line Loop(105) = {100,101,102,103,200,201,202,203};
-Plane Surface(100) = {105};
+Curve Loop(105) = {100,101,102,103};
+Plane Surface(100) = {105, 204};
 
-//There is a bug in "Attractor", we need to define a Ruled surface in FaceList
+// There is a bug in "Attractor", we need to define a Ruled surface in FaceList
 Line Loop(106) = {100,101,102,103};
 Ruled Surface(101) = {106};
 Ruled Surface(201) = {204};
 
 Surface{100,200} In Volume{1};
 
-
-//1.2 Managing coarsening away from the fault
+// Managing coarsening away from the fault
 // Attractor field returns the distance to the curve (actually, the
 // distance to 100 equidistant points on the curve)
 Field[1] = Distance;
@@ -138,7 +127,7 @@ Field[2] = MathEval;
 //Field[2].F = Sprintf("0.02*F1 +(F1/2e3)^2 + %g", lc_fault);
 Field[2].F = Sprintf("0.05*F1 +(F1/2.5e3)^2 + %g", lc_fault);
 
-//3.4.5 Managing coarsening around the nucleation Patch
+// Managing coarsening around the nucleation Patch
 Field[3] = Distance;
 Field[3].FacesList = {201};
 
@@ -151,9 +140,9 @@ Field[4].DistMax = 3*R_nucl;
 
 Field[5] = Restrict;
 Field[5].IField = 4;
-Field[5].FacesList = {100,200} ;
+Field[5].FacesList = {100,200};
 
-//equivalent of propagation size on element
+// Equivalent of propagation size on element
 Field[6] = Threshold;
 Field[6].IField = 1;
 Field[6].LcMin = lc_fault;
@@ -165,12 +154,11 @@ Field[6].DistMax = 2*lc_fault+0.001;
 Field[7] = Min;
 Field[7].FieldsList = {2,5,6};
 
-
 Background Field = 7;
 
 Physical Surface(101) = {1};
 Physical Surface(103) = {100,200};
-//This ones are read in the gui
+// This ones are read from the gui
 Physical Surface(105) = {14,18,22,26,27};
 
 Physical Volume(1) = {1};

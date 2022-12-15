@@ -1,4 +1,3 @@
-/*
 /**
  * @file
  * This file is part of SeisSol.
@@ -37,13 +36,12 @@
  
 
 Creates the mesh for tpv13, 60 degree dipping fault with a square nucleation patch
+Additionally this mesh contains the sharp stress boundary at 12800m down-dip.
 Obtain the mesh:
-gmsh tpv13_example.geo -3 -optimize
+gmsh tpv12_13_example.geo -3
 Convert the mesh:
-gmsh2gambit -i tpv13_example.msh -o tpv13_example.neu
-Convert .neu file with pumgen for the use in SeisSol
-
- */
+pumgen tpv12_13_example.msh -s msh2
+*/
 
 //resolution, off- and on-fault and nucleation patch
 lc = 25e3;
@@ -53,6 +51,7 @@ lc_nucl = 100;
 Fault_length = 30e3;
 Fault_width = 15e3;
 Fault_dip = 60*Pi/180.;
+Stress_barrier = 13800.0;
 
 //Square nucleation patch in X,Z local coordinates
 X_nucl = 0e3;
@@ -81,14 +80,20 @@ Extrude {0,0, Zmin} { Surface{1}; }
 
 //Create the fault
 Point(100) = {-0.5*Fault_length, -Fault_width  *Cos(Fault_dip), -Fault_width  *Sin(Fault_dip), lc};
-Point(101) = {-0.5*Fault_length, 0, 0e3, lc};
-Point(102) = {0.5*Fault_length, 0,  0e3, lc};
-Point(103) = {0.5*Fault_length, -Fault_width  *Cos(Fault_dip), -Fault_width  *Sin(Fault_dip), lc};
+Point(101) = {-0.5*Fault_length, -Stress_barrier  *Cos(Fault_dip), -Stress_barrier  *Sin(Fault_dip), lc};
+Point(102) = {-0.5*Fault_length, 0, 0e3, lc};
+Point(103) = {0.5*Fault_length, 0,  0e3, lc};
+Point(104) = {0.5*Fault_length, -Stress_barrier  *Cos(Fault_dip), -Stress_barrier  *Sin(Fault_dip), lc};
+Point(105) = {0.5*Fault_length, -Fault_width  *Cos(Fault_dip), -Fault_width  *Sin(Fault_dip), lc};
+
 Line(100) = {100, 101};
 Line(101) = {101, 102};
-Line{101} In Surface{1};
 Line(102) = {102, 103};
-Line(103) = {103, 100};
+Line(103) = {103, 104};
+Line(104) = {104, 105};
+Line(105) = {105, 100};
+Line(150) = {101, 104};
+Line{102} In Surface{1};
 
 //create nucleation patch
 Point(200) = {X_nucl + 0.5*Width_nucl, (Z_nucl+0.5*Width_nucl)*Cos(Fault_dip), (Z_nucl+0.5*Width_nucl)*Sin(Fault_dip), lc_nucl};
@@ -99,25 +104,27 @@ Line(200) = {200,201};
 Line(201) = {201,202};
 Line(202) = {202,203};
 Line(203) = {203,200};
-Line Loop(204) = {200,201,202,203};
-Plane Surface(200) = {204};
+Line Loop(200) = {200,201,202,203};
+Plane Surface(200) = {200};
 
-Line Loop(105) = {100,101,102,103,200,201,202,203};
-Plane Surface(100) = {105};
+Line Loop(101) = {101,102,103,-150,200,201,202,203};
+Plane Surface(101) = {101};
+Line Loop(102) = {100,150,104,105};
+Plane Surface(102) = {102};
+
+Surface{101,102,200} In Volume{1};
 
 //There is a bug in "Attractor", we need to define a Ruled surface in FaceList
-Line Loop(106) = {100,101,102,103};
-Ruled Surface(101) = {106};
-Ruled Surface(201) = {204};
-
-Surface{100,200} In Volume{1};
-
+Line Loop(105) = {101,102,103,-150};
+Ruled Surface(105) = {105};
+Ruled Surface(106) = {102};
+Ruled Surface(201) = {200};
 
 //1.2 Managing coarsening away from the fault
 // Attractor field returns the distance to the curve (actually, the
 // distance to 100 equidistant points on the curve)
 Field[1] = Distance;
-Field[1].FacesList = {101};
+Field[1].FacesList = {105,106};
 
 // Matheval field returns "distance squared + lc/20"
 Field[2] = MathEval;
@@ -160,7 +167,7 @@ Background Field = 7;
 //free surface
 Physical Surface(101) = {1};
 //dynamic rupture
-Physical Surface(103) = {100,200};
+Physical Surface(103) = {101,102,200};
 //absorbing
 Physical Surface(105) = {14,18,22,26,27};
 

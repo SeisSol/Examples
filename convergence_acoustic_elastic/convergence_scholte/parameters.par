@@ -1,0 +1,51 @@
+&Equations
+MaterialFileName = 'material.yaml'
+/
+
+&IniCondition                        ! no initial condition
+cICType = 'Scholte'
+/
+
+&Boundaries                          ! activate boundary conditions:
+BC_pe = 1                               ! Periodic boundaries
+/
+
+&SourceType
+/
+
+&SpongeLayer
+/
+
+&MeshNml
+MeshFile = 'meshes/mesh_1.h5'
+meshgenerator = 'PUML'        ! Name of meshgenerator (format)
+/
+
+&Discretization
+CFL = 0.5                            ! CFL number (<=1.0)
+ClusteredLts = 2
+/
+
+&Output
+OutputFile = 'output/conv'
+iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables ouptut
+Format = 10                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
+refinement = 1
+TimeInterval = 0.1                 ! Index of printed info at time
+pickdt = 0.05                        ! Pickpoint Sampling
+pickDtType = 1                       ! Pickpoint Type
+RFileName = 'recordPoints.dat'          ! Record Points in extra file
+SurfaceOutput = 1
+SurfaceOutputRefinement = 1
+SurfaceOutputInterval = 0.1
+/
+
+&Postprocessing
+/
+
+&AbortCriteria
+EndTime = 0.2
+/
+
+&Debugging
+/

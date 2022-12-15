@@ -1,1 +1,0 @@
-download https://strike.scec.org/cvws/download/tpv16/tpv16_17_input_files.zip and extract files here
