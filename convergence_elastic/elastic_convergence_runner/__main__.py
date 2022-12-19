@@ -18,6 +18,7 @@ def main():
                       help="norm type")
   parser.add_argument('--expected-errors', nargs='+', type=float, default=[1e-2, 1e-4])
   parser.add_argument('--end-time', type=float, default=2.0, help='end simulation time')
+  parser.add_argument('--homogenized-material', action='store_true', help='use cell homogenized material')
   parser.add_argument('--allow-run-as-root', action='store_true', help='allow to run MPI as root')
   args = parser.parse_args()
   
@@ -29,6 +30,7 @@ def main():
 
   runner = Runner(seissol_exe=args.executable,
                   end_time=args.end_time,
+                  use_homogenized_material=args.homogenized_material,
                   tmp_dir=args.tmp_dir,
                   allow_to_run_as_root=args.allow_run_as_root,
                   verbose=args.verbose)
