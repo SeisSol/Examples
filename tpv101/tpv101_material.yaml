@@ -1,6 +1,45 @@
-!ConstantMap
-map:
-  rho:    2670
-  mu:     32038120320
-  lambda: 32043759360
-
+!EvalModel
+  parameters: [young, poisson, rho_solid, rho_fluid, viscosity, permeability, compressibility_fluid, porosity, biot ]
+  model: !ConstantMap
+    # Pampillon et al.: The role of pore fluids on supershear earthquake ruptures, 2023
+    # Supplementary material, table S2
+    map: 
+      young: 20.e9
+      poisson: 0.25
+      rho_solid: 2.5e3
+      rho_fluid: 1.0e3
+      viscosity: 0.001
+      permeability: 1.0e-14
+      compressibility_fluid: 4.0e-10
+      porosity: 0.1
+      biot: 0.95
+  components: !LuaMap
+    returns: [ rho, bulk_solid, mu, lambda, porosity, permeability, tortuosity, rho_fluid, bulk_fluid, viscosity ]
+    function:
+      function f(x) 
+        rho = x["rho_solid"]
+        mu = x["young"] / (2.0 * (1.0 + x["poisson"]))
+        lambda = x["young"] * x["poisson"] / ((1 + x["poisson"]) * (1.0 - 2.0 * x["poisson"]))
+        bulk_matrix = lambda + 2.0/3.0 * mu
+        bulk_solid = bulk_matrix / (1.0 - x["biot"])
+        porosity = x["porosity"]
+        permeability = x["permeability"]
+        tortuosity = 1.0
+        rho_fluid = x["rho_fluid"]
+        bulk_fluid = 1.0 / x["compressibility_fluid"]
+        viscosity = x["viscosity"]
+        -- io.write(rho, " ", bulk_solid, " ", mu, " ", lambda, " ", porosity, " ", permeability, " ", tortuosity, " ", rho_fluid, " ", bulk_fluid, " ", viscosity, "\n")
+  
+        return { 
+          rho = rho,
+          bulk_solid = bulk_solid,
+          mu  = mu,
+          lambda = lambda,
+          porosity = porosity,
+          permeability = permeability,
+          tortuosity = tortuosity,
+          rho_fluid = rho_fluid,
+          bulk_fluid = bulk_fluid,
+          viscosity = viscosity,
+        }
+      end

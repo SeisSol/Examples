@@ -4,7 +4,7 @@
     s_xx: 0
     s_yy: -120e6
     s_zz: 0
-    s_xy: 75e6
+    s_xy: 120e6
     s_yz: 0
     s_xz: 0
     nuc_xx: 0
@@ -20,17 +20,7 @@
         return 25000000.0 * exp(r*r / (r*r - 9000000));
       }
       return 0.0;
-[rs_a]: !FunctionMap
+[rs_sl0, rs_a]: !ConstantMap
   map:
-    x1: return min(18000.0, max(15000., abs(x)));
-    z1: return min(18000.0, max(15000., abs(z)));
-  components: !FunctionMap
-        map:
-          box_x: return 0.5*(1.0+tanh(3000.0/(x1-15000.0-3000.0) + 3000.0 / (x1-15000.0)));
-          box_z: return 0.5*(1.0+tanh(3000.0/(z1-15000.0-3000.0) + 3000.0 / (z1-15000.0)));
-        components: !FunctionMap
-          map:
-            rs_a:   return 0.008 + 0.008 * (1.0 - box_x*box_z);
-[rs_sl0]: !ConstantMap
-  map:
-    rs_sl0: 0.02
+    rs_a: 0.005
+    rs_sl0: 0.0002
