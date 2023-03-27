@@ -47,7 +47,7 @@ Plane Surface(25) = {24};
 Surface Loop(1) = {17,-25,-23,-21,19,15};
 Volume(1) = {1};
 //Transfinite Line{1:4,6:13} = invLc;
-Transfinite Line{2,4,7,9} = 20*${factor} + 1; // lines parallel to z axis
+Transfinite Line{2,4,7,9} = 40*${factor} + 1; // lines parallel to z axis
 Transfinite Line{1,3,5,6,8,10,11,12,13} = 2*${factor} + 1;  // other lines
 
 // need to specify orientation (through vertex list) by hand to have correctly
