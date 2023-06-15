@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -euo pipefail
 
 prefix=tpv34_half
 # Generate half a mesh using gmsh

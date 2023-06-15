@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -euo pipefail
 
 #Download the scec data and unzip the file
 wget https://strike.scec.org/cvws/download/tpv29_tpv30_geometry_25m_data.zip --no-check-certificate
