@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+
 # PATH must contain cubeGenerator from SeisSol/preprocessing/meshing/cube_c/
 S=2
 cubeGenerator -b 6 -x 4 -y 4 -z 4 --px 1 --py 1 --pz 1 -o cube_4.nc -s $S

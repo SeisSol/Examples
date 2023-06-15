@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+set -euo pipefail
+
 prefix=tpv12_13_example
 # Generate the mesh using gmsh
 #for gmsh, see http://gmsh.info/#Download

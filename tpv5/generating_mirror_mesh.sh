@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -euo pipefail
 
 prefix=tpv5_f200_halfdom
 # Generate half a mesh using gmsh

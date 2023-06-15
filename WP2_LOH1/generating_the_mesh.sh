@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+set -euo pipefail
+
 prefix=loh
 # Generate the mesh using gmsh
 #for gmsh, see http://gmsh.info/#Download
