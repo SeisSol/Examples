@@ -6,9 +6,7 @@ MaterialFileName = 'material.yaml'
 /
 
 &Boundaries
-BC_fs = 1
 BC_dr = 1                               ! Fault boundaries
-BC_of = 1                               ! Absorbing boundaries
 /
 
 &DynamicRupture
@@ -33,7 +31,6 @@ OutputPointType = 5         ! Type (0: no output, 1: take GP's 2: 4 points per s
 /
 
 &Elementwise
-printIntervalCriterion = 2      ! 1=iteration, 2=time
 printtimeinterval_sec = 1.      ! Time interval at which output will be written
 !printtimeinterval = 1568       ! Index of printed info at timesteps
 OutputMask = 1 1 1 1 1 1 1 1 1  1 ! output 1/ yes, 0/ no - position: 1/ slip rate 2/ stress 3/ normal velocity 4/ in case of rate and state output friction and state variable
@@ -65,26 +62,16 @@ MeshFile = 'mesh/tpv103-nsym-250'             ! Name of mesh file
 /
 
 &Discretization
-Order = 4                       ! Order of accuracy in space and time
-Material = 1                         ! Material order
 CFL = 0.5                            ! CFL number (<=1.0)
-FixTimeStep = 5                      ! Manualy chosen minimum time
-
-DGMethod = 1                         ! Local time stepping
-!IterationCriterion = 1               ! Local time stepping synchronisation criterion
 ClusteredLTS =2
 /
 
 &Output
 OutputFile = 'output-rsl/tpv104'
 iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables ouptut
-iOutputMaskMaterial = 1 1 1          ! Material output
 Format = 10                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
-!Interval = 100000                    ! Index of printed info at timesteps
 TimeInterval = 0.25                   ! Index of printed info at time
-printIntervalCriterion = 2           ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
 pickdt = 0.005                       ! Pickpoint Sampling
-pickDtType = 1                       ! Pickpoint Type
 FaultOutputFlag = 1                  ! DR output (add this line only if DR is active)
 RFileName = 'tpv104_receivers.dat'      ! Record Points in extra file
 !checkPointInterval = 1.5 ! Set to 0 to disable checkpointing
