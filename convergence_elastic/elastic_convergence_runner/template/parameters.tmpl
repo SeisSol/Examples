@@ -24,7 +24,6 @@ meshgenerator = 'Netcdf'
 
 &Discretization
 CFL = 0.5
-FixTimeStep = 5
 ClusteredLTS = 1
 /
 
@@ -36,10 +35,7 @@ iPlasticityMask = 1 1 1 1 1 1 1
 TimeInterval =  5.
 refinement = 1
 
-printIntervalCriterion = 2
-
 pickdt = 0.05
-pickDtType = 1
 nRecordPoints = 2
 RFileName = '{{ working_dir }}/recordPoints.dat'
 
