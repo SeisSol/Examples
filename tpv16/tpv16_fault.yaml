@@ -14,12 +14,17 @@
             s_xx: 0.0
             s_zz: 0.0
             s_xz: 0.0
-        [s_yy, s_xy, s_yz,cohesion]: !FunctionMap
-          map:
-            s_yy: return -s_normal;
-            s_xy: return s_strike;
-            s_yz: return s_dip;
-            cohesion: return -cohesion;
+        [s_yy, s_xy, s_yz,cohesion]: !LuaMap
+            returns: [s_yy, s_xy, s_yz,cohesion]
+            function: |
+                function f (x)
+                  return {
+                    s_yy = -x["s_normal"], 
+                    s_xy = x["s_strike"],
+                    s_yz = x["s_dip"], 
+                    cohesion = -x["cohesion"]
+                  }
+                end
         [mu_s, mu_d, d_c, forced_rupture_time]: !IdentityMap {}
 [Tnuc_n, Tnuc_s, Tnuc_d]: !ConstantMap
     map:
