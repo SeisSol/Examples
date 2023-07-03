@@ -34,7 +34,6 @@ Format = 10                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=Gi
 refinement = 0 
 TimeInterval = 0.1                  ! Index of printed info at time
 pickdt = 0.002                        ! Pickpoint Sampling
-pickDtType = 1                       ! Pickpoint Type
 RFileName = 'recordPoints.dat'          ! Record Points in extra file
 SurfaceOutput = 1
 SurfaceOutputRefinement = 3

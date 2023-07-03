@@ -1,5 +1,6 @@
 &equations
 MaterialFileName = '{{ working_dir }}/material.yaml'
+UseCellHomogenizedMaterial = {{ use_homogenized_material }}
 /
 
 &IniCondition
@@ -23,21 +24,18 @@ meshgenerator = 'Netcdf'
 
 &Discretization
 CFL = 0.5
-FixTimeStep = 5
 ClusteredLTS = 1
 /
 
 &Output
 OutputFile = '{{ working_dir }}'
 Format = 10
-iOutputMask = 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+iOutputMask = 1 1 1 1 1 1 1 1 1
+iPlasticityMask = 1 1 1 1 1 1 1
 TimeInterval =  5.
 refinement = 1
 
-printIntervalCriterion = 2
-
 pickdt = 0.05
-pickDtType = 1
 nRecordPoints = 2
 RFileName = '{{ working_dir }}/recordPoints.dat'
 

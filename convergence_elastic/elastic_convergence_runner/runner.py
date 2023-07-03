@@ -12,9 +12,10 @@ class SysCode:
 
 
 class Runner:
-  def __init__(self, seissol_exe, end_time, tmp_dir, allow_to_run_as_root, verbose):
+  def __init__(self, seissol_exe, end_time, use_homogenized_material, tmp_dir, allow_to_run_as_root, verbose):
     self._seissol_exe: str = seissol_exe
     self._end_time: float = end_time
+    self._use_homogenized_material: bool = use_homogenized_material
     self._tmp_dir: str = tmp_dir
     self._allow_to_run_as_root: bool = allow_to_run_as_root
     self._verbose: bool = verbose
@@ -75,6 +76,7 @@ class Runner:
   def _generate_param_file(self, size):
     param = self._param_file_template.render(mesh_file=f'{self._base_mesh_file_name}_{size}',
                                              end_time=self._end_time,
+                                             use_homogenized_material=int(self._use_homogenized_material),
                                              working_dir=self._curr_working_dir)
   
     with open(os.path.join(self._curr_working_dir, 'parameters.par'), 'w') as file:

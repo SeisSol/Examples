@@ -9,16 +9,13 @@ FreqRatio=100
 /
 
 &Boundaries
-BC_fs = 1                                      ! enable free surface boundaries
 BC_dr = 0                                      ! enable fault boundaries
-BC_of = 1                                      ! enable absorbing boundaries
 /
 
 &SourceType
 Type = 42   ! 42: finite source in netcdf format
 FileName = './northridge.nrf' ! input file.
 /
-
 
 &SpongeLayer
 /
@@ -50,10 +47,7 @@ SurfaceOutput = 1
 SurfaceOutputRefinement = 1
 SurfaceOutputInterval = 0.5
 
-printIntervalCriterion = 2          ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
-
 pickdt = 0.005                       ! Pickpoint Sampling
-pickDtType = 1                       ! Pickpoint Type
 RFileName = 'offreceivers.dat'       ! Record Points in extra file
 
 xdmfWriterBackend = 'posix' ! (optional) The backend used in fault, wavefield,
