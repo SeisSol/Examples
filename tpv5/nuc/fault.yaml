@@ -9,14 +9,20 @@
     nuc_zz: 0
     nuc_yz: 0
     nuc_xz: 0
-[nuc_xy]: !FunctionMap
-  map:
-    nuc_xy: |
-      r = sqrt(x*x + y*y + pow(z+7500, 2.));
-      if (r <= 3000.0) {
-        return 25000000.0 * exp(r*r / (r*r - 9000000));
-      }
-      return 0.0;
+[nuc_xy]: !LuaMap
+  returns: [nuc_xy]
+  function: |
+      function(x)
+        r = math.sqrt(x["x"]*x["x"] + x["y"]*x["y"] + (x["z"]+7500)^2)
+        if (r <= 3000.0) then
+          nuc_xy = 25000000.0 * exp(r*r / (r*r - 9000000))
+        else
+          nuc_xy = 0
+        end
+        return {
+          nuc_xy = nuc_xy,
+        }
+      end
 [mu_s, mu_d, d_c, cohesion]: !ConstantMap
   map:
      mu_s:        0.677
