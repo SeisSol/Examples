@@ -9,10 +9,6 @@ magnitude = 5e7
 width = 1e-7
 /
 
-&Boundaries
-BC_dr = 1
-/
-
 &DynamicRupture
 FL = 16
 ModelFileName = 'fault.yaml'
@@ -57,7 +53,6 @@ ClusteredLTS = 2
 /
 
 &Output
-FaultOutputFlag = 1
 OutputFile = 'output/tpv'
 Format = 6
 !             |stress     |vel  

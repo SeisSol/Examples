@@ -5,12 +5,6 @@ MaterialFileName = 'material.yaml'
 &IniCondition
 /
 
-&Boundaries
-BC_fs = 1
-BC_dr = 1
-BC_of = 1
-/
-
 &DynamicRupture
 FL = 16
 ModelFileName = 'fault.yaml'
@@ -39,12 +33,6 @@ OutputMask = 1 0 1 1 1 1 1 1 1 1 1 1
 nOutpoints = 4
 PPFileName = 'FaultReceivers.dat'
 /
-
-&SourceType
-/
-
-&SpongeLayer
-/
             
 &MeshNml
 MeshFile = 'tpv5-20k.h5'
@@ -57,7 +45,6 @@ ClusteredLTS = 2
 /
 
 &Output
-FaultOutputFlag = 1
 OutputFile = 'output/tpv'
 Format = 6
 !             |stress     |vel  
@@ -77,10 +64,4 @@ EnergyOutputInterval = 1.0
 
 &AbortCriteria
 EndTime = 2.0
-/
-
-&Analysis
-/
-
-&Debugging
 /
