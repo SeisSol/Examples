@@ -1,0 +1,25 @@
+!Switch
+[T_n,T_s,T_d,nuc_xx,nuc_yy,nuc_zz,nuc_yz,nuc_xz]: !ConstantMap
+  map:
+    T_n: -120e6
+    T_d: 0
+    T_s: 75e6
+    nuc_xx: 0
+    nuc_yy: 0
+    nuc_zz: 0
+    nuc_yz: 0
+    nuc_xz: 0
+[nuc_xy]: !FunctionMap
+  map:
+    nuc_xy: |
+      r = sqrt(x*x + y*y + pow(z+7500, 2.));
+      if (r <= 3000.0) {
+        return 25000000.0 * exp(r*r / (r*r - 9000000));
+      }
+      return 0.0;
+[mu_s, mu_d, d_c, cohesion]: !ConstantMap
+  map:
+     mu_s:        0.677
+     mu_d:        0.525
+     d_c:         0.4
+     cohesion:    0.0
