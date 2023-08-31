@@ -10,60 +10,54 @@
     nuc_zz: 0
     nuc_yz: 0
     nuc_xz: 0
-[nuc_xy, s_yy, s_xy]: !FunctionMap
-  map:
-    nuc_xy: |
-      r = sqrt(pow(x+4000, 2.) + y*y + pow(z+7500, 2.));
-      if (r <= 1500.0) {
-        return 50*pow(10,6)* exp(r*r / (r*r - 1500*1500));
-      }
-      return 0.0;
-    s_yy: |
-      return  max(1670*9.8*z, -45*pow(10,6));
-    s_xy: |
-      return -0.41* max(1670*9.8*z, -45*pow(10,6));
-[rs_a,rs_srW,tp_hydraulicDiffusivity]: !EvalModel
-  parameters: [box_x1, box_z2, box_z3]
-  model: !FunctionMap
-    map:
-      box_x1: |
-             ax = abs(x);
-             if (ax<15000) {
-               return 1.0;
-             } else {
-             if (ax<18000) {
-               return 0.5*(1.0+tanh(3000.0/(ax-15000.0-3000.0) + 3000.0 / (ax-15000.0)));
-             } else {
-               return 0.0;
-             }}
-      box_z2: |
-             az = abs(z);
-             if (az<3000) {
-               return 0.5*(1.0+tanh(3000.0/(3000-az) - 3000.0 / az));
-             } else {
-             if (az<15000) {
-               return 1.0;
-             } else {
-             if (az<18000) {
-               return 0.5*(1.0+tanh(3000.0/(az-15000.0-3000.0) + 3000.0 / (az-15000.0)));
-             } else {
-               return 0.0;
-             }}}
-      box_z3: |
-             az = abs(z);
-             if (az<15000) {
-               return 1.0;
-             } else {
-             if (az<18000) {
-               return 0.5*(1.0+tanh(3000.0/(az-15000.0-3000.0) + 3000.0 / (az-15000.0)));
-             } else {
-               return 0.0;
-             }}
-  components: !FunctionMap
-     map:
-        rs_a:   return 0.01 + 0.01 * (1.0 - box_x1*box_z2);
-        rs_srW: return 0.1  + 0.9  * (1.0 - box_x1*box_z2);
-        tp_hydraulicDiffusivity: return 0.0004  + 1.0  * (1.0 - box_x1*box_z3);
+
+[rs_a,rs_srW,tp_hydraulicDiffusivity, nuc_xy, s_yy, s_xy]: !LuaMap
+  returns: [rs_a,rs_srW,tp_hydraulicDiffusivity, nuc_xy, s_yy, s_xy]
+  function: |
+      function f (x)
+
+        ax = math.abs(x["x"])
+        if (ax<15000.) then
+          box_x1 = 1.0
+        elseif (ax<18000.) then
+          box_x1 = 0.5*(1.0+math.tanh(3000.0/(ax-15000.0-3000.0) + 3000.0 / (ax-15000.0)))
+        else 
+          box_x1 = 0.0
+        end
+
+        az = math.abs(x["z"])
+        if (az<3000.0) then
+          box_z2 = 0.5*(1.0+math.tanh(3000.0/(3000.0-az) - 3000.0 / az))
+          box_z3 = 1.0
+        elseif (az<15000.0) then
+          box_z2 = 1.0
+          box_z3 = box_z2
+        elseif (az<18000.0) then
+          box_z2 = 0.5*(1.0+math.tanh(3000.0/(az-15000.0-3000.0) + 3000.0 / (az-15000.0)))
+          box_z3 = box_z2
+        else 
+          box_z2 = 0.0
+          box_z3 = box_z2
+        end
+
+        r = math.sqrt((x["x"]+4000.0)^2 + x["y"]^2 + (x["z"]+7500.0)^2)
+        if (r <= 1500.0) then
+          nuc_xy = 50*10.0^6 * math.exp(r^2 / (r^2 - 1500.0^2))
+        else
+          nuc_xy = 0.0
+        end
+
+        return {
+          rs_a = 0.01 + 0.01 * (1.0 - box_x1*box_z2),
+          rs_srW = 0.1 + 0.9 * (1.0 - box_x1*box_z2),
+          tp_hydraulicDiffusivity = 0.0004  + 1.0  * (1.0 - box_x1*box_z3),
+          nuc_xy = nuc_xy,
+          s_yy = math.max(1670.0*9.8*x["z"], -45.0*10.0^6),
+          s_xy = -0.41* math.max(1670.0*9.8*x["z"], -45.0*10.0^6)
+        }
+      end
+
+
 [rs_sl0, tp_halfWidthShearZone]: !ConstantMap
   map:
     rs_sl0: 0.4

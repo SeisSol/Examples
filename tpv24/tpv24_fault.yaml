@@ -3,57 +3,67 @@
   map:
     s_xz: 0
     s_yz: 0
-[s_xy, s_xx, s_yy, s_zz]: !EvalModel
-  parameters: [Pf, s_zz0, z]
-  model: !FunctionMap
-    map:
-      Pf: |
-        return -1000 * 9.8 * z;
-      s_zz0: |
-        return 2670 * 9.8 * z;
-      z: |
-        return z;
-  components: !FunctionMap
-    map:
-     s_xy: |
-       b23 = -0.169029;
-       if (z >= -15600.0) {
-         return b23 * (s_zz0 + Pf) - Pf;
-       }
-       return 0.0;
-     s_zz: |
-      return s_zz0;
-     s_xx: |
-      b22 = 0.926793;
-      if (z >= -15600 ) {
-       return b22 * (s_zz0 + Pf) - Pf;
-      }
-      return s_zz0;
-     s_yy: |
-      b33 = 1.073206;
-      if (z >= -15600 ) { 
-       return b33 * (s_zz0 + Pf) - Pf;
-      }   
-      return s_zz0;
+[s_xx,s_xy,s_yy,s_zz]: !LuaMap
+  returns: [s_xx,s_xy,s_yy,s_zz]
+  function: |
+      function f (x)
+        b22 = 0.926793
+        b23 = -0.169029
+        b33 = 1.073206
+        z = x["z"]
+        s_zz = 2670*9.8*z
+        Pf = -1000*9.8*z
+        if (z >= -15600.0) then
+          s_xx = b22 * (s_zz + Pf) - Pf
+          s_xy = b23 * (s_zz + Pf) - Pf
+          s_yy = b33 * (s_zz + Pf) - Pf
+        else
+          s_xx = s_zz
+          s_xy = 0.0
+          s_yy = s_zz
+        end
+
+        return {
+          s_xx = s_xx,
+          s_xy = s_xy,
+          s_yy = s_yy,
+          s_zz = s_zz,
+        }
+      end
 [mu_s, mu_d, d_c]: !ConstantMap
   map:
      mu_s:        0.18
      mu_d:        0.12
      d_c:         0.3
-[cohesion,forced_rupture_time]: !FunctionMap # nucleation as used  SCEC tpv24
-  map:
-    cohesion: |
-      cohesion = -300000.0;
-      zIncreasingCohesion = 4000.0;
-      if (z >= -zIncreasingCohesion) {
-        return cohesion - 675.0 * ( z + zIncreasingCohesion);
-      }   
-      return cohesion;
-    forced_rupture_time: |
-      r = sqrt(pow(x+8000.0, 2.0) + pow(z+10000.0, 2.0));
-      r_crit = 4000.0;
-      Vs = 3464.0;
-      if (r <= r_crit) {
-        return r/(0.7*Vs)+(0.081*r_crit/(0.7*Vs))*(1.0/(1.0-pow(r/r_crit, 2.0))-1.0);
-      }   
-      return 1000000000.0;
+
+[cohesion,forced_rupture_time]: !LuaMap
+  returns: [cohesion,forced_rupture_time]
+  function: |
+      function f (x)
+        cohesion = -300000.0
+        zIncreasingCohesion = 4000.0
+        z = x["z"]
+        if (z >= -zIncreasingCohesion) then
+          cohesion = cohesion - 675.0 * ( z + zIncreasingCohesion)
+        end 
+
+        r = math.sqrt((x["x"]+8000)^2 +(x["z"]+10000)^2)
+        r_crit = 4000.0
+        Vs = 3464.0
+        if (r <= r_crit) then
+          forced_rupture_time =  r/(0.7*Vs)+(0.081*r_crit/(0.7*Vs))*(1.0/(1.0-(r/r_crit)^2)-1.0)
+        else
+          forced_rupture_time = 1000000000.0
+        end
+
+        return {
+          cohesion = cohesion,
+          forced_rupture_time = forced_rupture_time
+        }
+      end
+
+[Tnuc_n, Tnuc_s, Tnuc_d]: !ConstantMap
+    map:
+        Tnuc_n: 0
+        Tnuc_s: 0
+        Tnuc_d: 0

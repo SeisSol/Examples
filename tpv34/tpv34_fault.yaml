@@ -4,12 +4,16 @@
     mu_d: 0.45
     mu_s: 0.58
     d_c: 0.18
-[cohesion]: !FunctionMap
-  map:
-    cohesion: |
-      return -425.0*max(z+2400.0,0.0);
-[s_xx, s_yy, s_zz, s_xy, s_yz, s_xz]: !EvalModel
-  parameters: [radius,mux]
+[cohesion]: !LuaMap
+  returns: [cohesion]
+  function: |
+      function f (x)
+        return {
+          cohesion =  -425.0*math.max(x["z"]+2400.0,0.0)
+        }
+      end
+[s_xx, s_yy, s_xy]: !EvalModel
+  parameters: [mux]
   model: !Switch
     [mux]: !AffineMap
       matrix:
@@ -22,34 +26,33 @@
         file: tpv34_mux-fault.nc
         parameters: [mux]
         var: data
-    [radius]: !FunctionMap
-      map:
-        radius: |
-          xHypo =     0.0;
-          zHypo = -7500.0;
-          return sqrt(((x+xHypo)*(x+xHypo))+((z-zHypo)*(z-zHypo)));
-  components: !FunctionMap
-    map:
-      s_xx:     return -60000000.0*mux;
-      s_yy:     return -60000000.0*mux;
-      s_zz:     return 0.0;
-      s_xy: |
-        pi = 4.0 * atan (1.0);
-        s_xy0 = 30000000.0*mux;
-        s_xy1 = 0.0;
-        if (radius<=1400.0) {
-          s_xy1 = 4950000.0*mux;
-        } else {
-          if (radius<=2000.0) {
-            s_xy1 = 2475000.0*(1.0+cos(pi*(radius-1400.0)/600.0))*mux;
+  components: !LuaMap
+    returns: [s_xx, s_yy, s_xy]
+    function: |
+        function f (x)
+          radius = math.sqrt((x["x"])^2 +(x["z"]+7500.0.0)^2)
+          pi = 4.0 * math.atan (1.0)
+          s_xy0 = 30000000.0*mux
+          if (radius<=1400.0) then
+            s_xy1 = 4950000.0*mux
+          elseif (radius<=2000.0) then
+              s_xy1 = 2475000.0*(1.0+math.cos(pi*(radius-1400.0)/600.0))*mux
+          else
+              s_xy1 = 0.0
+          end
+
+          return {
+            s_xx = -60000000.0*mux,
+            s_yy = -60000000.0*mux
+            s_xy = s_xy0 + s_xy1
           }
-        }
-        return s_xy0 + s_xy1;
-      s_yz:     return 0.0;
-      s_xz:     return 0.0;
-[Tnuc_n, Tnuc_s, Tnuc_d, forced_rupture_time]: !ConstantMap
+        end
+[Tnuc_n, Tnuc_s, Tnuc_d, forced_rupture_time, s_zz, s_yz, s_xz]: !ConstantMap
     map:
         Tnuc_n: 0
         Tnuc_s: 0
         Tnuc_d: 0
         forced_rupture_time: 1e10
+        s_zz: 0
+        s_yz: 0
+        s_xz: 0

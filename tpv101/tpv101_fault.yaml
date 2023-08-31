@@ -12,25 +12,27 @@
     nuc_zz: 0
     nuc_yz: 0
     nuc_xz: 0
-[nuc_xy]: !FunctionMap
-  map:
-    nuc_xy: |
-      r = sqrt(x*x + y*y + pow(z+7500, 2.));
-      if (r <= 3000.0) {
-        return 25000000.0 * exp(r*r / (r*r - 9000000));
-      }
-      return 0.0;
-[rs_a]: !FunctionMap
-  map:
-    x1: return min(18000.0, max(15000., abs(x)));
-    z1: return min(18000.0, max(15000., abs(z)));
-  components: !FunctionMap
-        map:
-          box_x: return 0.5*(1.0+tanh(3000.0/(x1-15000.0-3000.0) + 3000.0 / (x1-15000.0)));
-          box_z: return 0.5*(1.0+tanh(3000.0/(z1-15000.0-3000.0) + 3000.0 / (z1-15000.0)));
-        components: !FunctionMap
-          map:
-            rs_a:   return 0.008 + 0.008 * (1.0 - box_x*box_z);
+[rs_a, nuc_xy]: !LuaMap
+  returns: [rs_a, nuc_xy]
+  function: |
+      function f (x)
+        x1 = math.min(18000.0, math.max(15000., math.abs(x["x"])))
+        z1 = math.min(18000.0, math.max(15000., math.abs(x["z"])))
+        box_x = 0.5*(1.0+math.tanh(3000.0/(x1-15000.0-3000.0) + 3000.0 / (x1-15000.0)))
+        box_z = 0.5*(1.0+math.tanh(3000.0/(z1-15000.0-3000.0) + 3000.0 / (z1-15000.0)))
+        r = math.sqrt(x["x"]^2 + x["y"]^2 + (x["z"]+7500)^2)
+
+        if (r <= 3000.0) then 
+          nuc_xy = 25000000.0 * math.exp(r*r / (r*r - 9000000))
+        else
+          nuc_xy = 0.0
+        end
+
+        return {
+          rs_a = 0.008 + 0.008 * (1.0 - box_x*box_z),
+          nuc_xy = nuc_xy
+        }
+      end
 [rs_sl0]: !ConstantMap
   map:
     rs_sl0: 0.02
