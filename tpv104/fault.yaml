@@ -17,9 +17,11 @@
   function: |
       function f (x)
         x1 = math.min(18000.0, math.max(15000., math.abs(x["x"])))
-        z1 = math.min(18000.0, math.max(15000., math.abs(x["z"])))
+        z1 = math.min(10500.0, math.max(7500., math.abs(x["z"] + 7500)))
+
         box_x = 0.5*(1.0+math.tanh(3000.0/(x1-15000.0-3000.0) + 3000.0 / (x1-15000.0)))
-        box_z = 0.5*(1.0+math.tanh(3000.0/(z1-15000.0-3000.0) + 3000.0 / (z1-15000.0)))
+        box_z = 0.5*(1.0+math.tanh(3000.0/(z1-7500.0-3000.0) + 3000.0 / (z1-7500.0)))
+
         r = math.sqrt(x["x"]^2 + x["y"]^2 + (x["z"]+7500)^2)
 
         if (r <= 3000.0) then
