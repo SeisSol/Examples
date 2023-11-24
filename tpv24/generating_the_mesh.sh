@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-prefix=tpv24_100m
+prefix=tpv24_400m
 # Generate the mesh using gmsh
 #for gmsh, see http://gmsh.info/#Download
 gmsh -3 $prefix.geo

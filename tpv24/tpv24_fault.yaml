@@ -8,15 +8,15 @@
   function: |
       function f (x)
         b22 = 0.926793
-        b23 = -0.169029
         b33 = 1.073206
+        b23 = -0.169029
         z = x["z"]
-        s_zz = 2670*9.8*z
-        Pf = -1000*9.8*z
+        s_zz = 2670.0 * 9.8 * z
+        p_f = -1000.0 * 9.8 * z
         if (z >= -15600.0) then
-          s_xx = b22 * (s_zz + Pf) - Pf
-          s_xy = b23 * (s_zz + Pf) - Pf
-          s_yy = b33 * (s_zz + Pf) - Pf
+          s_xx = b22 * (s_zz + p_f)
+          s_xy = b23 * (s_zz + p_f)
+          s_yy = b33 * (s_zz + p_f)
         else
           s_xx = s_zz
           s_xy = 0.0
@@ -51,7 +51,7 @@
         r_crit = 4000.0
         Vs = 3464.0
         if (r <= r_crit) then
-          forced_rupture_time =  r/(0.7*Vs)+(0.081*r_crit/(0.7*Vs))*(1.0/(1.0-(r/r_crit)^2)-1.0)
+          forced_rupture_time = r/(0.7*Vs)+(0.081*r_crit/(0.7*Vs))*(1.0/(1.0-(r/r_crit)^2)-1.0)
         else
           forced_rupture_time = 1000000000.0
         end
