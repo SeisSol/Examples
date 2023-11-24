@@ -58,7 +58,7 @@ PPFileName = 'tpv104_faultreceivers.dat'
             
 &MeshNml
 meshgenerator = 'PUML'       ! Name of meshgenerator (format)
-MeshFile = 'mesh/tpv103-nsym-250'             ! Name of mesh file
+MeshFile = 'tpv104_half_sym'             ! Name of mesh file
 /
 
 &Discretization
@@ -67,7 +67,7 @@ ClusteredLTS =2
 /
 
 &Output
-OutputFile = 'output-rsl/tpv104'
+OutputFile = 'output/tpv104'
 iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables ouptut
 Format = 10                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
 TimeInterval = 0.25                   ! Index of printed info at time
