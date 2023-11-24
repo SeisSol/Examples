@@ -58,7 +58,7 @@ PPFileName = 'tpv104_faultreceivers.dat'
             
 &MeshNml
 meshgenerator = 'PUML'       ! Name of meshgenerator (format)
-MeshFile = 'tpv104_f200m.puml.h5'             ! Name of mesh file
+MeshFile = '../tpv105/tpv105_half_sym'             ! Name of mesh file
 /
 
 &Discretization
