@@ -2,10 +2,11 @@
 
 prefix=northridge
 
-#Download the srf file:
-wget http://hypocenter.usc.edu/research/SRF/nr6.70-s0000-h0000.txt
-#merge line 3 and 4
-sed  '3{N;s/\n//;}' nr6.70-s0000-h0000.txt > ${prefix}.srf
+# (When the website is reacheable,) The srf file can be downloaded with:
+# wget http://hypocenter.usc.edu/research/SRF/nr6.70-s0000-h0000.txt
+#
+# merge line 3 and 4
+sed  '3{N;s/\n//;}' ../Northridge/nr6.70-s0000-h0000.txt > ${prefix}.srf
 
 sed  -i.bak "s/\r//g" ${prefix}.srf && rm ${prefix}.bak
 
