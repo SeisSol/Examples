@@ -1,5 +1,4 @@
 /*
-/**
  * @file
  * This file is part of SeisSol.
  *
@@ -35,10 +34,9 @@
  * ARISING IN ANY WAY OUT OF THE  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
 */
-cl = 5.0e3;
-// cl_fault=200;
 
-// This file builds a rectangular box domain region which is exactly the same as topographic data.
+cl = 5.0e3;
+cl_fault=2000;
 
 level = 0.2e3; // vertical elevation
 region = 140e3; // range in meter
@@ -60,35 +58,38 @@ Line(5) = {5,6}; Line(6) = {6,7}; Line(7) = {7,8}; Line(8) = {8,5};
 
 Line(9) = {1,5}; Line(10) = {2,6}; Line(11) = {3,7}; Line(12) = {4,8};
 
-Line Loop(1) = {  1,  2,   3,  4} ; Plane Surface(7) = {1} ;// the free surface
-Line Loop(2) = {  5,  6,   7,  8} ; Plane Surface(2) = {2} ;
-Line Loop(3) = {  -4, 12,  8,  -9} ; Plane Surface(3) = {3} ; //
-Line Loop(4) = {  9,  5, -10,  -1} ; Plane Surface(4) = {4} ;
-Line Loop(5) = { 10,  6,  -11, -2} ; Plane Surface(5) = {5} ;
-Line Loop(6) = { 11,  7,  -12, -3} ; Plane Surface(6) = {6} ;
+Line Loop(1) = {  1,  2,   3,  4} ; Plane Surface(1) = {1}; 
+Line Loop(2) = {  5,  6,   7,  8} ; Plane Surface(2) = {2};
+Line Loop(3) = {  -4, 12,  8,  -9} ; Plane Surface(3) = {3};
+Line Loop(4) = {  9,  5, -10,  -1} ; Plane Surface(4) = {4};
+Line Loop(5) = { 10,  6,  -11, -2} ; Plane Surface(5) = {5};
+Line Loop(6) = { 11,  7,  -12, -3} ; Plane Surface(6) = {6};
 
 // fault surface
-
 fwidth = 20e3;
 flength = 40e3;
-cl_fault = 200;
 
-Point(21) = {-0.5*flength, 0, 0, cl_fault};
-Point(22) = {0.5*flength, 0, 0, cl_fault};
+Point(21) = {-0.5*flength, 0, level, cl_fault};
+Point(22) = {0.5*flength, 0, level, cl_fault};
 Point(23) = {0.5*flength, 0, -fwidth, cl_fault};
 Point(24) = {-0.5*flength, 0, -fwidth, cl_fault};
 Line(21) = {21,22};
 Line(22) = {22,23};
 Line(23) = {23,24};
 Line(24) = {24,21};
-// Line{21} In Surface{7};
+Line{21} In Surface{1};
 
 Line Loop(21) = {21,22,23,24} ;
-Plane Surface(1) = {21} ; // fault face
+Plane Surface(21) = {21} ; // fault face
 
-Physical Surface(101) = {7};// free surface
+Surface Loop(1) = {1, 2, 3, 4, 5, 6};
+Volume(1) = {1};
+Surface{21} In Volume{1};
+Physical Volume(1) = {1};
+
+
+Physical Surface(101) = {1};// free surface
 Physical Surface(105) = {2,3,4,5,6};//absorb boundary
-Physical Surface(103) = {1}; // dynamic rupture
+Physical Surface(103) = {21}; // dynamic rupture
 
-Mesh.MshFileVersion = 1.0;
-
+Mesh.MshFileVersion = 2.2;
