@@ -1,0 +1,15 @@
+!Switch
+[Tau0]: !EvalModel
+    parameters: [T_n, Ts0, Td0,mu_d]
+    model: !Switch
+        [T_n]: !Include common2all.yaml
+        [Ts0, Td0]: !Include Ts0Td0.yaml
+        [mu_d]: !Include mud.yaml
+    components: !LuaMap
+      returns: [Tau0]
+      function: |
+       function f (x)
+        return {
+          Tau0 =  -x['mu_d']*x['T_n'] + math.sqrt(x['Ts0']^2 + x['Td0']^2)
+        }
+        end

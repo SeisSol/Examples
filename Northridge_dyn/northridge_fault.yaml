@@ -1,0 +1,47 @@
+!Switch
+
+[mu_d]: !Include mud.yaml
+
+[mu_s]: !EvalModel
+    parameters: [T_n, Tau0, mu_d,DeltaS,R]
+    model: !Switch
+        [T_n]: !Include common2all.yaml
+        [Tau0]: !Include Tau0.yaml
+        [mu_d]: !Include mud.yaml
+        [DeltaS,R]: !ConstantMap
+           map:
+             DeltaS: 100000
+             R: 0.9
+    components: !LuaMap
+      returns: [mu_s]
+      function: |
+       function f (x)
+        return {
+          -- mu_s =  math.min(10, x['mu_d'] -(x['Tau0'] + x['DeltaS'])/x['T_n'])
+          mu_s =  math.min(10, x['mu_d'] -(x['Tau0'])/(x['R'] * x['T_n']))
+        }
+        end
+
+[T_s, T_d]: !EvalModel
+    parameters: [T_n, Ts0, Td0, rake, mu_d]
+    model: !Switch
+        [T_n]: !Include common2all.yaml
+        [Ts0, Td0]: !Include Ts0Td0.yaml
+        [rake]: !Include rake.yaml
+        [mu_d]: !Include mud.yaml
+    components: !LuaMap
+      returns: [T_s, T_d]
+      function: |
+       function f (x)
+        return {
+          T_s = math.cos(x['rake']) * (-x['mu_d']*x['T_n']) - x['Ts0'],
+          T_d = math.sin(x['rake']) * (-x['mu_d']*x['T_n']) - x['Td0']
+        }
+        end
+
+[T_n, forced_rupture_time, cohesion, d_c]: !Include common2all.yaml
+[Tnuc_n, Tnuc_s, Tnuc_d]: !ConstantMap
+  map:
+    Tnuc_n: 0
+    Tnuc_s: 0
+    Tnuc_d: 0

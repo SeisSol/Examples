@@ -1,0 +1,18 @@
+!Switch
+[Ts0, Td0]: !AffineMap
+  matrix:
+    ua: [0.8480480961564261, -0.5299192642332048, 0.0]
+    ub: [-0.40594170766754406, -0.6496425315582591, -0.642787609686539]
+  translation:
+    ua: 10000.0
+    ub: -3213.9380484326953
+  components: !Any
+      - !ASAGI
+          file: fault_Ts0Td0Tn0.nc
+          parameters: [Ts0, Td0, Pn0]
+          var: data
+          interpolation: linear
+      - !ConstantMap
+        map:
+          Ts0: 0.0
+          Td0: 0.0

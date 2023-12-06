@@ -1,0 +1,34 @@
+!Switch
+[fault_slip, strike_slip, dip_slip]: !EvalModel
+    parameters: [strike_slip, dip_slip]
+    model: !Switch
+        [strike_slip, dip_slip, rupture_onset, effective_rise_time, acc_time]: !AffineMap
+              matrix:
+                ua: [0.8487221225268059, -0.5288390669509897, 0.0]
+                ub: [-0.4075746864700095, -0.6481322438352638, -0.6432786872343429]
+              translation:
+                ua: 10002.210630897995
+                ub: -3241.732635412551
+              components: !Any
+                - !ASAGI
+                    file: ../Northridge_FL33/northridge_10_o3.nc
+                    parameters: [strike_slip, dip_slip, rupture_onset, effective_rise_time, acc_time]
+                    var: data
+                    interpolation: linear
+                - !ConstantMap
+                  map:
+                    strike_slip: 0.0
+                    dip_slip:    0.0
+                    rupture_onset:    0.0
+                    acc_time:  1e100
+                    effective_rise_time:  2e100
+    components: !LuaMap
+      returns: [fault_slip, strike_slip, dip_slip]
+      function: |
+       function f (x)
+        return {
+          fault_slip = math.sqrt(x['strike_slip']^2 + x['dip_slip']^2),
+          strike_slip = x['strike_slip'],
+          dip_slip = x['dip_slip']
+        }
+        end
