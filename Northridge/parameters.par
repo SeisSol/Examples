@@ -8,10 +8,6 @@ FreqRatio=100
 &IniCondition
 /
 
-&Boundaries
-BC_dr = 0                                      ! enable fault boundaries
-/
-
 &SourceType
 Type = 42   ! 42: finite source in netcdf format
 FileName = './northridge.nrf' ! input file.

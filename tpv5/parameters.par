@@ -6,9 +6,6 @@ MaterialFileName = 'tpv5_material.yaml'
 &IniCondition
 /
 
-&Boundaries
-BC_dr = 1                                      ! enable fault boundaries
-/
 
 &DynamicRupture
 FL = 16                                         ! Friction law  

@@ -6,10 +6,6 @@ MaterialFileName = 'tpv105_material.yaml'
 &IniCondition
 /
 
-&Boundaries
-BC_dr = 1                                      ! enable fault boundaries
-/
-
 &DynamicRupture
 FL = 103                                       ! Friction law  
 !0: none, 16:LSW, 103: RS with strong velocity weakening
