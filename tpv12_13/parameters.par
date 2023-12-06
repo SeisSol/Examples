@@ -9,10 +9,6 @@ Tv = 0.03
 &IniCondition
 /
 
-&Boundaries
-BC_dr = 1                                      ! enable fault boundaries
-/
-
 &DynamicRupture
 FL = 16                                        ! Friction law  
 !0: none, 2:LSW  16:LSW (with forced_rupture_time), 103: RS with strong velocity weakening

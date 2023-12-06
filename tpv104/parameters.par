@@ -5,10 +5,6 @@ MaterialFileName = 'material.yaml'
 &IniCondition
 /
 
-&Boundaries
-BC_dr = 1                               ! Fault boundaries
-/
-
 &DynamicRupture
 FL = 103                   ! Friction law (0: none, 1:self-similar crack, 2:LSW, 3:RS (aging), 4:RS (slip), 103: Rate-state+strong velocity weakening)
 ModelFileName = 'fault.yaml'

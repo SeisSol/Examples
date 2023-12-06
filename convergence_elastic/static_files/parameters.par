@@ -9,10 +9,6 @@ cICType = 'Planarwave'
 IniConditionFile = 'initial_condition.dat'
 /
 
-&Boundaries
-BC_pe = 1                                      ! enable periodic boundaries
-/
-
 &SourceType
 /
 

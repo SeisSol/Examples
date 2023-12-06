@@ -6,10 +6,6 @@ MaterialFileName = 'material.yaml'
 cICType = 'Scholte'
 /
 
-&Boundaries                          ! activate boundary conditions:
-BC_pe = 1                               ! Periodic boundaries
-/
-
 &SourceType
 /
 

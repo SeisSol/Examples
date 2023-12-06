@@ -6,10 +6,6 @@ MaterialFileName = 'loh1.yaml'
 &IniCondition
 /
 
-&Boundaries
-BC_dr = 0                                      ! enable fault boundaries
-/
-
 &SourceType
 Type = 50
 FileName = 'LOH1_source_50.dat'                   ! input file.
