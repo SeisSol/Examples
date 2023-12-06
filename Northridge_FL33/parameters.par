@@ -55,10 +55,10 @@ FaultOutputFlag = 1                            ! DR output (add this line only i
 OutputFile = 'output/northridge'
 Format = 6                                     ! Format (10= no output, 6=hdf5 output)
 !             |stress     |vel
-iOutputMask = 0 0 0 0 0 0 1 1 1
+iOutputMask = 1 1 1 1 1 1 1 1 1
 !                 |strain     |eta
 iPlasticityMask = 0 0 0 0 0 0 1
-TimeInterval =  5.                           ! Index of printed info at time
+TimeInterval =  10.                           ! Index of printed info at time
 refinement = 1
 
 ! Free surface output

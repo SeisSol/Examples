@@ -17,8 +17,8 @@
       function: |
        function f (x)
         return {
-          -- mu_s =  math.min(10, x['mu_d'] -(x['Tau0'] + x['DeltaS'])/x['T_n'])
-          mu_s =  math.min(10, x['mu_d'] -(x['Tau0'])/(x['R'] * x['T_n']))
+          mu_s =  math.min(10, x['mu_d'] -(x['Tau0'] + x['DeltaS'])/x['T_n'])
+          -- mu_s =  math.min(10, x['mu_d'] -(x['Tau0'])/(x['R'] * x['T_n']))
         }
         end
 
