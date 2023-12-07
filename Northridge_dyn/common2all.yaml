@@ -1,15 +1,4 @@
 !Switch
-[T_n]: !EvalModel
-    parameters: [rho, z]
-    model: !Switch
-        [rho]: !Include northridge_material.yaml
-        [z]: !FunctionMap
-          map:
-            z: return z;
-    components: !FunctionMap
-       map:
-          T_n: return min(-1000000, (rho-1000)*9.8*z);
-
 [forced_rupture_time]: !LuaMap
   returns: [forced_rupture_time]
   function: |
