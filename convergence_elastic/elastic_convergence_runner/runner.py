@@ -37,44 +37,14 @@ class Runner:
     if not os.path.exists(self._seissol_exe):
       raise RuntimeError(f'provided SeisSol executable does not exist, given `{self._seissol_exe}`')
 
-    process = subprocess.run(f'which cubeGenerator',
-                             shell=True,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
-
-    if process.returncode == SysCode.ok:
-      print('found cubeGenerator...')
-    else:
-      raise RuntimeError('cannot find cubeGenerator. Please, install from SeisSol sources. '
-                         'Location: SeisSol/preprocessing/meshing/cube_c')
-  
   def _copy(self, working_dir):
     files = ['material.yaml', 'recordPoints.dat']
     for file in files:
       src = os.path.join(self._static_files, file)
       shutil.copy(src=src, dst=working_dir)
 
-  def _generate_mesh(self, size):
-    dst_mesh_file = os.path.join(self._curr_working_dir, f'{self._base_mesh_file_name}_{size}.nc')
-    
-    params = f'-b 6 -x {size} -y {size} -z {size}'
-    params += ' --px 1 --py 1 --pz 1'
-    params += f' -o {dst_mesh_file} -s 2'
-    
-    process = subprocess.run(f'cubeGenerator {params}',
-                             shell=True,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
-
-    if process.returncode != SysCode.ok:
-      raise RuntimeError(f'cubeGenerator ERROR: {process.stderr}')
-    
-    if self._verbose:
-      for line in process.stdout.splitlines():
-        print(line)
-      
   def _generate_param_file(self, size):
-    param = self._param_file_template.render(mesh_file=f'{self._base_mesh_file_name}_{size}',
+    param = self._param_file_template.render(size=size,
                                              end_time=self._end_time,
                                              use_homogenized_material=int(self._use_homogenized_material),
                                              working_dir=self._curr_working_dir)
@@ -109,7 +79,6 @@ class Runner:
           self._curr_working_dir = os.path.join(self._tmp_dir, str(size))
           os.makedirs(self._curr_working_dir, exist_ok=True)
           self._copy(self._curr_working_dir)
-          self._generate_mesh(size)
           self._generate_param_file(size)
           self._run()
           self._collect_results(size)
