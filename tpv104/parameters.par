@@ -22,7 +22,6 @@ XRef = 0.0                  ! Reference point
 YRef = -1.0e5 
 ZRef = 0 
 
-RF_output_on = 1            ! RF on      
 OutputPointType = 5         ! Type (0: no output, 1: take GP's 2: 4 points per surface triangle, 3: output at certain pickpoints)
 /
 
