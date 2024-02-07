@@ -17,9 +17,19 @@ BC_pe = 1
 &SpongeLayer
 /
 
+&CubeGenerator
+cubex = {{ size }}
+cubey = {{ size }}
+cubez = {{ size }}
+cubes = 2
+cubesx = 2
+cubesy = 2
+cubesz = 2
+/
+
 &MeshNml
-MeshFile = '{{ working_dir }}/{{ mesh_file }}'
-meshgenerator = 'Netcdf'
+meshgenerator = 'CubeGenerator'
+meshfile = '{{ working_dir }}/cube_{{ size }}.nc'
 /
 
 &Discretization
