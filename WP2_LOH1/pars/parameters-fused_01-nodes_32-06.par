@@ -1,0 +1,68 @@
+&equations
+!yaml file defining spatial dependance of material properties
+MaterialFileName = 'loh1.yaml'
+/
+
+&IniCondition
+/
+
+&Boundaries
+BC_fs = 1                                      ! enable free surface boundaries
+BC_dr = 0                                      ! enable fault boundaries
+BC_of = 1                                      ! enable absorbing boundaries
+/
+
+&SourceType
+Type = 42   ! 42: finite source in netcdf format
+FileName = 'source/source_01_06.nrf'
+/
+
+&SpongeLayer
+/
+            
+&MeshNml
+MeshFile = 'loh.puml.h5'
+meshgenerator = 'PUML'                         ! Name of meshgenerator (Gambit3D-fast, Netcdf or PUML)
+/
+
+&Discretization
+CFL = 0.5                                      ! CFL number (<=1.0)
+FixTimeStep = 5                                ! Manualy chosen minimum time
+ClusteredLTS = 2                               ! 1 for Global time stepping, 2,3,5,... Local time stepping (advised value 2)
+!ClusteredLTS defines the multi-rate for the time steps of the clusters 2 for Local time stepping
+/
+
+&Output
+OutputFile = 'output-nodes_32/loh1-fused_01-06'
+Format = 6                                     ! Format (10= no output, 6=hdf5 output)
+!             |stress     |vel  
+iOutputMask = 0 0 0 0 0 0 1 1 1 
+TimeInterval =  1.0                          ! Index of printed info at time
+refinement = 1
+
+! Free surface output
+SurfaceOutput = 1
+SurfaceOutputRefinement = 1
+SurfaceOutputInterval = 0.5
+
+printIntervalCriterion = 2          ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
+
+pickdt = 0.0005                      ! Pickpoint Sampling
+pickDtType = 1                       ! Pickpoint Type
+ReceiverOutputInterval = 1.0
+RFileName = 'recordPoints.dat'       ! Record Points in extra file
+
+xdmfWriterBackend = 'hdf5' ! (optional) The backend used in fault, wavefield,
+! and free-surface output. The HDF5 backend is only supported when SeisSol is compiled with
+! HDF5 support.
+/
+
+&AbortCriteria
+EndTime = 4.0
+/
+
+&Analysis
+/
+
+&Debugging
+/

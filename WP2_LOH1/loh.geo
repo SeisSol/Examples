@@ -15,7 +15,7 @@ Point(9) = {32000, 32000, 34000, cl_1};
 Point(10) = {-26000, 32000, 34000, cl_1};
 Point(11) = {32000, -26000, 34000, cl_1};
 Point(12) = {-26000, -26000, 34000, cl_1};
-Point(13) = {4000, 4000, 1500, cl_1};
+Point(13) = {0, 0, 2000, cl_1};
 Line(1) = {4, 5};
 Line(2) = {5, 8};
 Line(3) = {8, 7};
@@ -75,13 +75,19 @@ Field[1].XMin = -2500;
 Field[1].YMax = 12000;
 Field[1].YMin = -2500;
 Field[1].ZMax = 6000;
-Field[1].ZMin = 0;
+Field[1].ZMin = -10;
+Field[1].Thickness = 3000;
 // define distance to reference point 13
 Field[2] = Distance;
 Field[2].NodesList = {13};
 // define radial refinement method
-Field[3] = MathEval;
-Field[3].F = "150 + F2^2/6000^2*100";
+Field[3] = Threshold;
+Field[3].InField = 2;
+Field[3].SizeMin = 50;
+Field[3].SizeMax = 3000;
+Field[3].DistMin = 1000;
+Field[3].DistMax = 10000;
+// Min
 Field[4] = Min;
 Field[4].FieldsList = {1, 3};
 // final 
