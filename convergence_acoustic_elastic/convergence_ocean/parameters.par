@@ -30,7 +30,7 @@ ClusteredLts = 2
 &Output
 OutputFile = 'output/conv'
 iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables ouptut
-Format = 10                           ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
+wavefieldoutput = 0                                    ! Format (0= no output, 1=output on)
 refinement = 0 
 TimeInterval = 0.1                  ! Index of printed info at time
 pickdt = 0.002                        ! Pickpoint Sampling

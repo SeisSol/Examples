@@ -28,9 +28,8 @@ ClusteredLTS = 2                               ! 1 for Global time stepping, 2,3
 /
 
 &Output
-FaultOutputFlag = 1                            ! DR output (add this line only if DR is active)
 OutputFile = 'output/northridge'
-Format = 6                                     ! Format (10= no output, 6=hdf5 output)
+wavefieldoutput = 1                                    ! Format (0= no output, 1=output on)
 !             |stress     |vel
 iOutputMask = 0 0 0 0 0 0 1 1 1
 !                 |strain     |eta
