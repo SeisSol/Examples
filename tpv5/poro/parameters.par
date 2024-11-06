@@ -1,0 +1,81 @@
+&equations
+MaterialFileName = 'material.yaml'
+/
+
+&IniCondition
+cICType = 'PressureInjection'     ! Initial Condition
+origin = 0.0 -1000.0 -7500.0
+magnitude = 5e7
+width = 1e-7
+/
+
+&DynamicRupture
+FL = 16
+ModelFileName = 'fault.yaml'
+
+XRef = 0.0
+YRef = -1.0
+ZRef = 0.0
+
+RF_output_on = 1
+OutputPointType = 5
+/
+
+&Elementwise
+printIntervalCriterion = 2
+printtimeinterval_sec = 1.0
+OutputMask = 1 1 1 1 1 1 1 1 1 1 1 0
+refinement_strategy = 2
+refinement = 1
+/
+
+&Pickpoint
+printtimeinterval = 1
+OutputMask = 1 0 1 1 1 1 1 1 1 1 1 1
+nOutpoints = 4
+PPFileName = 'FaultReceivers.dat'
+/
+
+&SourceType
+/
+
+&SpongeLayer
+/
+            
+&MeshNml
+MeshFile = 'tpv5-20k.h5'
+meshgenerator = 'PUML'
+/
+
+&Discretization
+CFL = 0.5
+ClusteredLTS = 2
+/
+
+&Output
+OutputFile = 'output/tpv'
+Format = 6
+!             |stress     |vel  
+iOutputMask = 0 0 0 0 0 0 1 1 1 
+TimeInterval = 1.
+refinement = 1
+
+RFileName = 'Receivers.dat'
+pickdt = 0.005
+
+EnergyOutput = 1
+EnergyTerminalOutput = 1
+EnergyOutputInterval = 1.0
+
+checkpoint = 0
+/
+
+&AbortCriteria
+EndTime = 2.0
+/
+
+&Analysis
+/
+
+&Debugging
+/
