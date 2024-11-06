@@ -4,6 +4,8 @@ in collaboration with CRESCENT
 For the problem description, please refer to:
 - [The SCEC/USGS Spontaneous Rupture Code Verification Project](https://strike.scec.org/cvws)
 
+Note: the only difference between TPV36 and TPV37 is the cohesion near the surface, resulting in surface rupture or buried rupture, respectively.
+
 ## Meshing
 
 - Please see [tpv36_37_mesh_refined.geo](tpv36_37_mesh_refined.geo) for the mesh generation involving gmsh (4.12.2) and pumgen.

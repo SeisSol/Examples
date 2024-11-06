@@ -18,7 +18,7 @@ FL = 16                                        ! Friction law
 ! See https://github.com/SeisSol/SeisSol/issues/546
 !yaml file defining spatial dependence of fault properties
 ! Choose tpv36 or tpv37 yaml file (different cohesion)
-ModelFileName = 'fault_tpv36.yaml' !'fault_tpv37.yaml'
+ModelFileName = 'fault_tpv37.yaml' 
 
 !characteristic time of the forced nucleation
 t_0 = 0.5
@@ -50,12 +50,6 @@ OutputMask = 1 1 1 1 1 1 1 1 1 1 1 1        ! turn on and off fault outputs
 PPFileName = 'onfault_receivers.dat'
 /
 
-&SourceType
-/
-
-&SpongeLayer
-/
-            
 &MeshNml
 MeshFile = 'tpv36_37_mesh_refined.puml.h5'
 meshgenerator = 'PUML'                         ! Name of meshgenerator (Gambit3D-fast, Netcdf or PUML)
