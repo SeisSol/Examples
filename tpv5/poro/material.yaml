@@ -1,0 +1,12 @@
+!ConstantMap
+map:
+   mu:              6.40e9
+   lambda:          5.28e9
+   bulk_fluid:      2.50e9
+   bulk_solid:      2.00e10
+   permeability:    6.00e-13
+   porosity:        0.4
+   rho_fluid:    1040.0
+   rho:          2080.0
+   tortuosity:      2
+   viscosity:       0.001
