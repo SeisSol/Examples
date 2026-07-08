@@ -1,158 +1,123 @@
-// Gmsh project created on Tue Sep 24 15:57:06 2019
+// ==========================================================
+// CONSTANTS & MESH SPACING PARAMETERS
+// ==========================================================
+DefineConstant[ h_domain = {5000.0, Min 0, Max 50000.0, Name "Mesh spacing within domain" } ];
+DefineConstant[ h_fault  = {200.0, Min 0, Max 5000.0,  Name "Mesh spacing on fault layers" } ];
+DefineConstant[ h_nucl   = {200.0,  Min 0, Max 1000.0,  Name "Mesh spacing within nucleation patch" } ];
 
-lc= 5000;
-lc_fault = 200;
-//+
-Point(1) = {-22e3, 0, -18e3, lc};
-//+
-Point(2) = {22e3, 0, -18e3, lc};
-//+
-Point(3) = {-18e3, 0, -18e3, lc};
-//+
-Point(4) = {18e3, 0, -18e3, lc};
-//+
-Point(5) = {18e3, 0, 0, lc};
-//+
-Point(6) = {-18e3, 0, 0, lc};
-//+
-Point(7) = {-22e3, 0, 0, lc};
-//+
-Point(8) = {22e3, 0, 0, lc};
-//+
-Point(9) = {22e3, 0, -22e3, lc};
-//+
-Point(10) = {-22e3, 0, -22e3, lc};
-//+
-Point(11) = {-55e3, 0, 0, lc};
-//+
-Point(12) = {55e3, 0, 0, lc};
-//+
-Point(13) = {55e3, 55e3, 0, lc};
-//+
-Point(14) = {-55e3, 55e3, 0, lc};
-//+
-Line(1) = {6, 5};
-//+
-Line(2) = {4, 3};
-//+
-Line(3) = {5, 4};
-//+
-Line(4) = {5, 8};
-//+
-Line(5) = {8, 2};
-//+
-Line(6) = {2, 9};
-//+
-Line(7) = {9, 10};
-//+
-Line(8) = {10, 1};
-//+
-Line(9) = {1, 3};
-//+
-Line(10) = {4, 2};
-//+
-Line(11) = {3, 6};
-//+
-Line(12) = {1, 7};
-//+
-Line(13) = {7, 6};
-//+
-Line(14) = {7, 11};
-//+
-Line(15) = {11, 14};
-//+
-Line(16) = {14, 13};
-//+
-Line(17) = {13, 12};
-//+
-Line(18) = {12, 8};
-//+
-Point(15) = {-55e3, 55e3, -55e3, lc};
-//+
-Point(16) = {55e3, 55e3, -55e3, lc};
-//+
-Point(17) = {55e3, 0, -55e3, lc};
-//+
-Point(18) = {-55e3, 0, -55e3, lc};
-//+
-Line(19) = {11, 18};
-//+
-Line(20) = {18, 15};
-//+
-Line(21) = {15, 14};
-//+
-Line(22) = {12, 17};
-//+
-Line(23) = {17, 18};
-//+
-Line(24) = {16, 17};
-//+
-Line(25) = {16, 13};
-//+
-Line(26) = {16, 15};
-//+
-Line Loop(27) = {19, -23, -22, 18, 5, 6, 7, 8, 12, 14};
-//+
-Plane Surface(28) = {27};
-//+
-Line Loop(29) = {9, -2, 10, 6, 7, 8};
-//+
-Plane Surface(30) = {29};
-//+
-Line Loop(31) = {12, 13, -11, -9};
-//+
-Plane Surface(32) = {31};
-//+
-Line Loop(33) = {11, 1, 3, 2};
-//+
-Plane Surface(34) = {33};
-//+
-Line Loop(35) = {4, 5, -10, -3};
-//+
-Plane Surface(36) = {35};
-//+
-Line Loop(37) = {15, -21, -20, -19};
-//+
-Plane Surface(38) = {37};
-//+
-Line Loop(39) = {26, 21, 16, -25};
-//+
-Plane Surface(40) = {39};
-//+
-Line Loop(41) = {17, 18, -4, -1, -13, 14, 15, 16};
-//+
-Plane Surface(42) = {41};
-//+
-Line Loop(43) = {20, -26, 24, 23};
-//+
-Plane Surface(44) = {43};
-//+
-Line Loop(45) = {22, -24, 25, 17};
-//+
-Plane Surface(46) = {45};
-//+
-Surface Loop(47) = {38, 42, 46, 28, 44, 40, 36, 30, 32, 34};
+// Specifying the CAD engine backend
+SetFactory("OpenCASCADE");
 
-Volume(48) = {47};
+lbox = 60e3;
+split_depth = -7.5e3; // 7.5 km depth
 
-//Distance only works with Ruled surface!
-Line(1000) = {7, 10};
-Line(1001) = {10, 9};
-Line(1002) = {9, 8};
-Line(1003) = {8, 7};
-Line Loop(1000) = {1000,1001,1002,1003};
-Ruled Surface(1000) = {1000};
+// ==========================================================
+// GEOMETRY GENERATION
+// ==========================================================
 
+// 1. Domain box: Centered in x [-lbox, lbox], extending [0, lbox] in y, and [-lbox, 0] in z
+domain = newv; 
+Box(domain) = {-lbox, 0, -lbox, 2*lbox, lbox, lbox};
+
+// 2. Horizontal cutting plane at Z = -7.5 km
+cutting_plane = news;
+Rectangle(cutting_plane) = {-lbox, 0, split_depth, 2*lbox, lbox};
+
+// 3. Fault plane rectangles (Initially defined on the XY plane, to be rotated to XZ)
+fault_outer = news;      Rectangle(fault_outer)      = {-22e3, -22e3, 0, 44e3, 22e3}; 
+fault_mid   = news;      Rectangle(fault_mid)        = {-18e3, -18e3, 0, 36e3, 18e3}; 
+fault_deep_in = news;    Rectangle(fault_deep_in)    = {-15e3, -15e3, 0, 30e3, 12e3}; 
+fault_shallow_in = news; Rectangle(fault_shallow_in) = {-15e3, -3e3,  0, 30e3, 3e3};  
+
+// 4. Nucleation Disk (Radius 1.5e3, centered at x=-4e3, y=-7.5e3 on the XY plane)
+nucl = news; 
+Disk(nucl) = {-4e3, -7.5e3, 0, 1.5e3};
+
+// ==========================================================
+// ROTATION (Aligning XY-plane to XZ-plane / Y=0)
+// ==========================================================
+Rotate { {1, 0, 0}, {0, 0, 0}, Pi/2 } { 
+  Surface{fault_outer, fault_mid, fault_shallow_in, fault_deep_in, nucl}; 
+}
+
+// ==========================================================
+// BOOLEAN FRAGMENTS (Resolve Intersections & Partitioning)
+// ==========================================================
+// Including 'cutting_plane' here splits both the domain volume and the faults at Z = -7.5 km
+v() = BooleanFragments{ 
+  Volume{domain}; Delete; 
+}{ 
+  Surface{fault_outer, fault_mid, fault_shallow_in, fault_deep_in, nucl, cutting_plane}; Delete; 
+};
+
+// ==========================================================
+// SURFACE AND BOUNDARY SELECTION VIA BOUNDING BOXES
+// ==========================================================
+eps = 1.0;
+
+// Gather all fault surfaces lying precisely on the Y=0 plane
+fault_surfaces[] = Surface In BoundingBox{-22e3-eps, -eps, -22e3-eps, 22e3+eps, eps, eps};
+
+// Gather the nucleation patch surface specifically
+nucl_final[] = Surface In BoundingBox{-4e3-1.5e3-eps, -eps, split_depth-1.5e3-eps, -4e3+1.5e3+eps, eps, split_depth+1.5e3+eps};
+
+// Top domain surface (Z=0)
+top[] = Surface In BoundingBox{-lbox-eps, -eps, -eps, lbox+eps, lbox+eps, eps};
+
+// Explicitly target external boundary faces to avoid selecting the internal horizontal cutting interface
+bottom[] = Surface In BoundingBox{-lbox-eps, -eps, -lbox-eps, lbox+eps, lbox+eps, -lbox+eps};
+left[]   = Surface In BoundingBox{-lbox-eps, -eps, -lbox-eps, -lbox+eps, lbox+eps, eps};
+right[]  = Surface In BoundingBox{lbox-eps, -eps, -lbox-eps, lbox+eps, lbox+eps, eps};
+back[]   = Surface In BoundingBox{-lbox-eps, lbox-eps, -lbox-eps, lbox+eps, lbox+eps, eps};
+
+absorbing[] = {bottom[], left[], right[], back[]};
+
+// ==========================================================
+// VOLUME SELECTION
+// ==========================================================
+// Select the newly split volumes (above and below Z = -7.5 km)
+vol_top[]    = Volume In BoundingBox{-lbox-eps, -eps, split_depth-eps, lbox+eps, lbox+eps, eps};
+vol_bottom[] = Volume In BoundingBox{-lbox-eps, -eps, -lbox-eps, lbox+eps, lbox+eps, split_depth+eps};
+
+// ==========================================================
+// MESH SIZE SPECIFICATIONS
+// ==========================================================
+MeshSize{ PointsOf{Volume{vol_top[], vol_bottom[]};} } = h_domain;
+MeshSize{ PointsOf{Surface{fault_surfaces[]};} } = h_fault;
+MeshSize{ PointsOf{Surface{nucl_final[]};} } = h_nucl;
+
+
+// ==========================================================
+// MESH GRADIENT FIELD (Coarsening away from the fault)
+// ==========================================================
+
+// Define a distance field relative to all dynamically found fault sections
 Field[1] = Distance;
-Field[1].FacesList = {1000};
-Field[1].NNodesByEdge = 20;
+Field[1].SurfacesList = {fault_surfaces[]};
+Field[1].Sampling = 50; // Controls calculation sampling resolution along edges
+
+// Apply scaling function using the distance value from Field[1] (F1)
 Field[2] = MathEval;
-Field[2].F = Sprintf("0.1*F1 +(F1/5.0e3)^2 + %g", lc_fault);
+Field[2].F = Sprintf("0.1*F1 + (F1/5.0e3)^2 + %g", h_nucl);
+
+// Set Field 2 as the global background mesh constraint
 Background Field = 2;
 
-Physical Surface(105) = {38, 44, 46, 40};
-Physical Surface(101) = {42};
-Physical Surface(103) = {30,34,36,32};
-Physical Volume(2) = {48};
+
+// ==========================================================
+// SEISSOL PHYSICAL GROUPS
+// ==========================================================
+
+// 101: Free Surface (Top domain face)
+Physical Surface(101) = {top[]};
+
+// 103: Fault Plane (All fault portions including nucleation patch)
+Physical Surface(103) = {fault_surfaces[]};
+
+// 105: Absorbing Boundaries
+Physical Surface(105) = {absorbing[]};
+
+// 3D Domain Volumes (Assigned to physical tag 2 for SeisSol)
+Physical Volume(2) = {vol_top[], vol_bottom[]};
 
 Mesh.MshFileVersion = 2.2;
